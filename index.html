@@ -174,21 +174,21 @@ tr:hover td{background:var(--beige-l)}
 .btn-race:hover{opacity:.92;transform:translateY(-1px)}
 @keyframes racePulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.3)}50%{box-shadow:0 0 0 7px rgba(220,38,38,0)}}
 /* ── PISTA DE CORRIDA ── */
-#raceTrack{display:none;border-radius:14px;overflow:hidden;margin-bottom:18px;position:relative;height:240px;background:#111;transition:opacity .5s}
-.rt-grandstand{height:52px;background:linear-gradient(180deg,#1e1e1e,#111);display:flex;align-items:flex-end;padding:0 10px 4px;gap:2px;border-bottom:3px solid #333;overflow:hidden}
+#raceTrack{display:none;border-radius:14px;overflow:hidden;margin-bottom:18px;position:relative;height:340px;background:#111;transition:opacity .5s}
+.rt-grandstand{height:70px;background:linear-gradient(180deg,#1e1e1e,#111);display:flex;align-items:flex-end;padding:0 10px 4px;gap:2px;border-bottom:3px solid #333;overflow:hidden}
 .rt-seat-row{display:flex;gap:2px;align-items:flex-end}
-.rt-seat{width:14px;border-radius:3px 3px 0 0}
-.rt-road{position:absolute;left:0;right:0;bottom:0;height:188px;background:#2b2b2b;display:flex;flex-direction:column}
+.rt-seat{width:18px;border-radius:3px 3px 0 0}
+.rt-road{position:absolute;left:0;right:0;bottom:0;height:270px;background:#2b2b2b;display:flex;flex-direction:column}
 .rt-lane{flex:1;position:relative;overflow:hidden;display:flex;align-items:center}
 .rt-lane-t{border-bottom:2px dashed rgba(255,255,255,.15)}
 .rt-lane-s{}
 .rt-finish-line{position:absolute;right:0;top:0;bottom:0;width:24px;background:repeating-conic-gradient(#fff 0 25%,#000 0 50%) 0 0/12px 12px;z-index:3;border-left:2px solid #fff}
 .rt-road-line{position:absolute;top:50%;left:0;right:30px;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.25) 0,rgba(255,255,255,.25) 18px,transparent 18px,transparent 36px)}
 .rt-car-wrap{position:absolute;left:-110px;display:flex;flex-direction:column;align-items:center;gap:3px;transition:left 2.2s cubic-bezier(.2,1,.3,1);z-index:2}
-.rt-avatar-ring{width:40px;height:40px;border-radius:50%;overflow:hidden;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.6);flex-shrink:0}
+.rt-avatar-ring{width:58px;height:58px;border-radius:50%;overflow:hidden;border:3px solid #fff;box-shadow:0 2px 12px rgba(0,0,0,.7);flex-shrink:0}
 .rt-avatar-ring img{width:100%;height:100%;object-fit:cover}
-.rt-car-lbl{font-size:10px;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.9);white-space:nowrap;letter-spacing:.3px}
-.rt-car-pts-lbl{font-size:9px;font-weight:600;color:rgba(255,255,255,.75);white-space:nowrap}
+.rt-car-lbl{font-size:13px;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.9);white-space:nowrap;letter-spacing:.3px}
+.rt-car-pts-lbl{font-size:11px;font-weight:600;color:rgba(255,255,255,.85);white-space:nowrap}
 @keyframes exhaustSmoke{0%{opacity:.7;transform:translateX(-4px) scale(.6)}100%{opacity:0;transform:translateX(-22px) scale(1.4)}}
 .rt-exhaust{position:absolute;left:-8px;top:50%;width:10px;height:10px;border-radius:50%;animation:exhaustSmoke .6s infinite;margin-top:-5px}
 @keyframes trackCountdown{0%{opacity:0;transform:scale(.4)}40%{opacity:1;transform:scale(1.2)}70%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.8)}}
@@ -1295,16 +1295,16 @@ function showRaceAnimation(tScore,sScore){
     });
   });
 
-  // Countdown flash at 1.8s
+  // Countdown flash at 3.8s
   setTimeout(()=>{
     const cd=document.createElement('div');
     cd.className='rt-countdown';
     cd.textContent='🏁';
     track.appendChild(cd);
     setTimeout(()=>cd.remove(),800);
-  },1800);
+  },3800);
 
-  // Fade out track, show scoreboard at 2.8s
+  // Fade out track, show scoreboard at 4.8s
   setTimeout(()=>{
     track.style.opacity='0';
     setTimeout(()=>{
@@ -1312,7 +1312,7 @@ function showRaceAnimation(tScore,sScore){
       track.style.opacity='1';
       cont.style.display='';
     },500);
-  },2800);
+  },4800);
 }
 
 function openRace(){
