@@ -11,6 +11,9 @@
 
 const CVCRM_BASE = 'https://almeidacarneiro.cvcrm.com.br/api/v1';
 const IMOBILIARIA_ALVO = 'SOLO HOUSE DE VENDAS';
+// O dashboard reporta o período Set/25 (início do time) até hoje — leads mais antigos
+// (histórico do CV CRM anterior a isso) são ignorados na agregação.
+const DATA_MINIMA = new Date('2025-09-01T00:00:00');
 
 const { CVCRM_EMAIL, CVCRM_TOKEN, JSONBIN_KEY, CVCRM_BIN_ID } = process.env;
 for (const [k, v] of Object.entries({ CVCRM_EMAIL, CVCRM_TOKEN, JSONBIN_KEY, CVCRM_BIN_ID })) {
@@ -37,6 +40,7 @@ function mesAno(dataCad) {
   // "2026-08-05 14:57:45" -> "Ago/26"
   const d = new Date(dataCad.replace(' ', 'T'));
   if (isNaN(d)) return null;
+  if (d < DATA_MINIMA) return null; // fora do período do dashboard (Set/25 – hoje)
   return `${MONTH_ABBR[d.getMonth()]}/${String(d.getFullYear()).slice(2)}`;
 }
 
