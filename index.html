@@ -97,6 +97,17 @@ tr:hover td{background:var(--beige-l)}
 /* ── PROGRESS ── */
 .prog{background:var(--silver-ll);border-radius:4px;height:6px;overflow:hidden;margin-top:6px}
 .prog-fill{height:100%;border-radius:4px;transition:width .7s}
+/* ── BOULEVARD RANKING ── */
+.blv-rank{display:flex;flex-direction:column;gap:14px}
+.blv-rank-head{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text)}
+.blv-rank-head b{font-weight:600}
+.blv-rank-head .sub{font-size:11px}
+.blv-rank-n{margin-left:auto;font-weight:700;color:var(--navy);font-size:14px}
+.blv-rank-foot{font-size:11px;color:var(--muted);margin-top:4px}
+.blv-medal{width:20px;height:20px;border-radius:50%;background:var(--silver-ll);color:var(--muted);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.blv-medal-1{background:#F5D061;color:#7A5B00}
+.blv-medal-2{background:var(--silver-l);color:var(--navy)}
+.blv-medal-3{background:#E3B08A;color:#7A3E10}
 /* ── FUNNEL ── */
 .funnel{display:flex;flex-direction:column;gap:11px;padding:6px 0}
 .funnel-row{display:flex;align-items:center;gap:14px}
@@ -409,29 +420,77 @@ tr:hover td{background:var(--beige-l)}
   </section>
   <section id="blv" class="sec">
     <div class="sec-title">🏙️ Painel Boulevard — Almeida Carneiro</div>
-    <div class="card" style="padding:0;overflow:hidden">
-      <iframe src="https://painel-blvd.netlify.app/" title="Painel de Leads — Almeida Carneiro Boulevard"
-        style="width:100%;height:85vh;border:none;display:block" loading="lazy"></iframe>
+
+    <div class="kpi-grid">
+      <div class="kpi navy"><div class="kpi-lbl">Vendas</div><div class="kpi-val">46</div><div class="kpi-sub">Situação "Vendido" · todas imobiliárias</div></div>
+      <div class="kpi ok"><div class="kpi-lbl">Conversão Geral</div><div class="kpi-val">18,5%</div><div class="kpi-sub">Pré-cadastro → venda</div></div>
+      <div class="kpi blue"><div class="kpi-lbl">VGV em Carteira</div><div class="kpi-val">R$ 5,04M</div><div class="kpi-sub">7 reservas ativas (não fechadas)</div></div>
+      <div class="kpi warn"><div class="kpi-lbl">Corretora Destaque</div><div class="kpi-val">Tarcyla</div><div class="kpi-sub">30 pré-cad · 4 vendas · SOLO</div></div>
     </div>
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">Pré-Cadastro → Vendas <span class="sub">Top 5 corretoras · Boulevard · atualizado manualmente em 07/08/2026</span></div>
-      <div class="tbl-wrap">
-        <table>
-          <thead>
-            <tr><th>Corretora</th><th>Pré-cadastro</th><th>Vendas</th><th>Conversão</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Tarcyla Santos Sodré</td><td>30</td><td>4</td><td>13,3%</td></tr>
-            <tr><td>Viviane da Rocha Ramos</td><td>22</td><td>3</td><td>13,6%</td></tr>
-            <tr><td>Samila Costa Gonçalves</td><td>21</td><td>1</td><td>4,8%</td></tr>
-            <tr><td>Ludmila Valeska Teixeira Ramos</td><td>14</td><td>4</td><td>28,6%</td></tr>
-            <tr><td>Daniela Borges Habib de Almeida</td><td>10</td><td>2</td><td>20,0%</td></tr>
-            <tr style="font-weight:700"><td>Total Boulevard <span class="sub" style="font-weight:400">(todas as imobiliárias)</span></td><td>248</td><td>46</td><td>18,5%</td></tr>
-          </tbody>
-        </table>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Ranking Geral <span class="sub">Pré-cadastro → vendas · todas imobiliárias</span></div>
+        <div class="blv-rank">
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><span class="blv-medal blv-medal-1">1</span><b>Tarcyla Santos Sodré</b><span class="sub">SOLO</span><span class="blv-rank-n">30</span></div>
+            <div class="prog"><div class="prog-fill" style="width:100%;background:var(--navy)"></div></div>
+            <div class="blv-rank-foot">4 vendas · 13,3% conversão</div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><span class="blv-medal blv-medal-2">2</span><b>Viviane da Rocha Ramos</b><span class="sub">Torre Ilhéus</span><span class="blv-rank-n">22</span></div>
+            <div class="prog"><div class="prog-fill" style="width:73%;background:var(--navy)"></div></div>
+            <div class="blv-rank-foot">3 vendas · 13,6% conversão</div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><span class="blv-medal blv-medal-3">3</span><b>Samila Costa Gonçalves</b><span class="sub">SOLO</span><span class="blv-rank-n">21</span></div>
+            <div class="prog"><div class="prog-fill" style="width:70%;background:var(--navy)"></div></div>
+            <div class="blv-rank-foot">1 venda · 4,8% conversão</div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><span class="blv-medal">4</span><b>Ludmila Valeska Teixeira Ramos</b><span class="sub">Torre Ilhéus</span><span class="blv-rank-n">14</span></div>
+            <div class="prog"><div class="prog-fill" style="width:47%;background:var(--silver)"></div></div>
+            <div class="blv-rank-foot">4 vendas · <b style="color:var(--ok)">28,6% conversão</b> — melhor taxa do grupo</div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><span class="blv-medal">5</span><b>Daniela Borges Habib de Almeida</b><span class="sub">Torre Ilhéus</span><span class="blv-rank-n">10</span></div>
+            <div class="prog"><div class="prog-fill" style="width:33%;background:var(--silver)"></div></div>
+            <div class="blv-rank-foot">2 vendas · 20,0% conversão</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--navy)">
+          <span>Total Boulevard <span class="sub" style="font-weight:400">(todas as imobiliárias)</span></span>
+          <span>248 pré-cad · 46 vendas · 18,5%</span>
+        </div>
       </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:12px">🔗 Pré-cadastro e vendas puxados diretamente do CV CRM (filtro por empreendimento + situação), com login manual — ainda não é automático porque isso exigiria guardar uma senha de login em um robô. Pré-cadastro exclui cancelados.</div>
+
+      <div class="card">
+        <div class="card-title">Ranking SOLO <span class="sub">Equipe própria</span></div>
+        <div class="blv-rank">
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Tarcyla Santos Sodré</b><span class="blv-rank-n">30</span></div>
+            <div class="prog"><div class="prog-fill" style="width:100%;background:var(--tc)"></div></div>
+            <div class="blv-rank-foot">4 vendas · 13,3% conversão · VGV em carteira R$ 2,81M (3 reservas)</div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Samila Costa Gonçalves</b><span class="blv-rank-n">21</span></div>
+            <div class="prog"><div class="prog-fill" style="width:70%;background:var(--sa)"></div></div>
+            <div class="blv-rank-foot">1 venda · 4,8% conversão · sem reserva ativa no momento</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:14px;padding-top:12px;display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--navy)">
+          <span>Total SOLO no Boulevard</span>
+          <span>51 pré-cad · 5 vendas</span>
+        </div>
+      </div>
     </div>
+
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="card-title" style="padding:16px 22px 0">Painel Completo <span class="sub">fonte: painel-blvd.netlify.app</span></div>
+      <iframe src="https://painel-blvd.netlify.app/" title="Painel de Leads — Almeida Carneiro Boulevard"
+        style="width:100%;height:75vh;border:none;display:block;margin-top:10px" loading="lazy"></iframe>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:12px">🔗 Pré-cadastro, vendas e VGV puxados direto do CV CRM (filtro por empreendimento + situação), com login manual — ainda não é automático porque isso exigiria guardar uma senha de login em um robô. Pré-cadastro exclui cancelados. VGV é da carteira ativa (reservas em andamento, ainda não fechadas) — não é o total histórico de vendas.</div>
   </section></main>
 
 <!-- ── MODAL ── -->
