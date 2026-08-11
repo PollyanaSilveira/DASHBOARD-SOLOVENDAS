@@ -512,11 +512,143 @@ tr:hover td{background:var(--beige-l)}
       <div style="font-size:11px;color:var(--muted);margin-top:10px">📊 Barras na escala de leads (Torre Ilhéus = 100%). "SOLO" aqui considera só Tarcyla e Samila — o Albano Nery Silva (gestor, não corretora de linha de frente) foi movido pra "Outras" pra não distorcer a comparação. Torre Ilhéus e Torre Negócios Imobiliários contam como a mesma empresa. Dados de todo o histórico do CV CRM para o Boulevard, não só do mês atual.</div>
     </div>
 
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="card-title" style="padding:16px 22px 0">Painel Completo <span class="sub">fonte: painel-blvd.netlify.app</span></div>
-      <iframe src="https://painel-blvd.netlify.app/" title="Painel de Leads — Almeida Carneiro Boulevard"
-        style="width:100%;height:75vh;border:none;display:block;margin-top:10px" loading="lazy"></iframe>
+    <div class="sec-title" style="margin-top:26px;font-size:16px">📋 Painel de Leads — Boulevard <span class="sub" style="font-size:12px;font-weight:400">CV CRM · histórico completo, sem filtro de data</span></div>
+
+    <div class="kpi-grid">
+      <div class="kpi navy"><div class="kpi-lbl">Total Leads</div><div class="kpi-val">1.205</div><div class="kpi-sub">Boulevard · todo o período</div></div>
+      <div class="kpi blue"><div class="kpi-lbl">Em Atendimento</div><div class="kpi-val">1.048</div><div class="kpi-sub">87,0% do total</div></div>
+      <div class="kpi ok"><div class="kpi-lbl">Venda Realizada</div><div class="kpi-val">80</div><div class="kpi-sub">6,6% do total</div></div>
+      <div class="kpi silver"><div class="kpi-lbl">Com Reserva</div><div class="kpi-val">13</div><div class="kpi-sub">1,1% do total</div></div>
     </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Status Atual do Lead <span class="sub">demais situações (fora "Em Atendimento")</span></div>
+        <div class="blv-rank">
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Venda Realizada</b><span class="blv-rank-n">80</span></div>
+            <div class="prog"><div class="prog-fill" style="width:100%;background:var(--ok)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Aguardando Atend. Corretor</b><span class="blv-rank-n">26</span></div>
+            <div class="prog"><div class="prog-fill" style="width:33%;background:var(--warn)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Congelado</b><span class="blv-rank-n">20</span></div>
+            <div class="prog"><div class="prog-fill" style="width:25%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Com Reserva</b><span class="blv-rank-n">13</span></div>
+            <div class="prog"><div class="prog-fill" style="width:16%;background:var(--navy)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Visita Realizada</b><span class="blv-rank-n">9</span></div>
+            <div class="prog"><div class="prog-fill" style="width:11%;background:var(--blue)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Agendamento</b><span class="blv-rank-n">4</span></div>
+            <div class="prog"><div class="prog-fill" style="width:5%;background:var(--blue)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Em Atendimento — aiSofia</b><span class="blv-rank-n">4</span></div>
+            <div class="prog"><div class="prog-fill" style="width:5%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Start</b><span class="blv-rank-n">1</span></div>
+            <div class="prog"><div class="prog-fill" style="width:1%;background:var(--silver)"></div></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:10px">Barras na escala de "Venda Realizada" = 100%. "Em Atendimento" (1.048) fica de fora da escala — já é o KPI acima.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Canal de Entrada <span class="sub">SDR, WhatsApp e aiSofia em destaque</span></div>
+        <div class="blv-rank">
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>SDR Digital</b><span class="blv-rank-n">89 <span class="sub" style="font-weight:400">(7,4%)</span></span></div>
+            <div class="prog"><div class="prog-fill" style="width:100%;background:var(--navy)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>WhatsApp</b><span class="blv-rank-n">35 <span class="sub" style="font-weight:400">(2,9%)</span></span></div>
+            <div class="prog"><div class="prog-fill" style="width:39%;background:var(--ok)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>aiSofia (IA)</b><span class="blv-rank-n">4 <span class="sub" style="font-weight:400">(0,3%)</span></span></div>
+            <div class="prog"><div class="prog-fill" style="width:4%;background:var(--blue)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Outros canais</b><span class="sub">indicação corretor, stand, orgânico...</span><span class="blv-rank-n">1.077 <span class="sub" style="font-weight:400">(89,4%)</span></span></div>
+            <div class="prog"><div class="prog-fill" style="width:100%;background:var(--silver)"></div></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:10px">SDR/WhatsApp/aiSofia na escala do SDR (89=100%); "Outros" tem escala própria (é maioria — sobretudo indicação de corretor).</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Leads por Empreendimento <span class="sub">todos os projetos · histórico completo</span></div>
+        <div class="blv-rank">
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Sette</b><span class="blv-rank-n">1.393</span></div>
+            <div class="prog"><div class="prog-fill" style="width:100%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b style="color:var(--tc)">Almeida Carneiro Boulevard</b><span class="blv-rank-n">1.205</span></div>
+            <div class="prog"><div class="prog-fill" style="width:87%;background:var(--tc)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Sem empreendimento</b><span class="blv-rank-n">937</span></div>
+            <div class="prog"><div class="prog-fill" style="width:67%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Oceânico</b><span class="blv-rank-n">292</span></div>
+            <div class="prog"><div class="prog-fill" style="width:21%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Galeria Farani</b><span class="blv-rank-n">256</span></div>
+            <div class="prog"><div class="prog-fill" style="width:18%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Outros projetos</b><span class="sub">PETRA, Orizzon, Maré, Farani, Ilha di Capri...</span><span class="blv-rank-n">670</span></div>
+            <div class="prog"><div class="prog-fill" style="width:48%;background:var(--silver)"></div></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:10px">Barras na escala do Sette (1.393 = 100%). Boulevard em destaque.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Origem do Lead <span class="sub">Boulevard · histórico completo</span></div>
+        <div class="blv-rank">
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Painel Corretor</b><span class="blv-rank-n">939</span></div>
+            <div class="prog"><div class="prog-fill" style="width:100%;background:var(--navy)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Painel Gestor</b><span class="blv-rank-n">155</span></div>
+            <div class="prog"><div class="prog-fill" style="width:17%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Instagram</b><span class="blv-rank-n">46</span></div>
+            <div class="prog"><div class="prog-fill" style="width:5%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Aplicativo</b><span class="blv-rank-n">39</span></div>
+            <div class="prog"><div class="prog-fill" style="width:4%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>WhatsApp</b><span class="blv-rank-n">11</span></div>
+            <div class="prog"><div class="prog-fill" style="width:1%;background:var(--silver)"></div></div>
+          </div>
+          <div class="blv-rank-row">
+            <div class="blv-rank-head"><b>Outras origens</b><span class="sub">Facebook, Painel Imobiliária, Portais...</span><span class="blv-rank-n">15</span></div>
+            <div class="prog"><div class="prog-fill" style="width:2%;background:var(--silver)"></div></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:10px">Barras na escala do Painel Corretor (939 = 100%).</div>
+      </div>
+    </div>
+
     <div style="font-size:11px;color:var(--muted);margin-top:12px">🔗 Pré-cadastro, vendas e VGV puxados direto do CV CRM (filtro por empreendimento + situação), com login manual — ainda não é automático porque isso exigiria guardar uma senha de login em um robô. Pré-cadastro exclui cancelados. VGV é da carteira ativa (reservas em andamento, ainda não fechadas) — não é o total histórico de vendas.</div>
   </section></main>
 
