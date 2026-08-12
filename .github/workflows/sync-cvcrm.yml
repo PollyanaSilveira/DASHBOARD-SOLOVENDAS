@@ -5,6 +5,9 @@ on:
     - cron: '*/15 * * * *'
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -17,6 +20,11 @@ jobs:
         env:
           CVCRM_EMAIL: ${{ secrets.CVCRM_EMAIL }}
           CVCRM_TOKEN: ${{ secrets.CVCRM_TOKEN }}
-          JSONBIN_KEY: ${{ secrets.JSONBIN_KEY }}
-          CVCRM_BIN_ID: ${{ secrets.CVCRM_BIN_ID }}
         run: node scripts/sync-cvcrm.mjs
+      - name: Comitar dados atualizados
+        run: |
+          git config user.name "cvcrm-sync-bot"
+          git config user.email "actions@github.com"
+          git add data/cvcrm-live.json
+          git diff --cached --quiet && echo "Sem mudanças." || git commit -m "chore: atualiza dados do CV CRM [skip ci]"
+          git push

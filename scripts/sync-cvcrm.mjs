@@ -1,22 +1,24 @@
-// Sincroniza leads do CV CRM (equipe SOLO House de Vendas) para o bin do jsonbin.io
-// que o dashboard (index.html) já consome a cada 30s.
+// Sincroniza leads do CV CRM (equipe SOLO House de Vendas) para um arquivo estático
+// (data/cvcrm-live.json) no próprio repositório, que o dashboard (index.html) consome
+// direto do GitHub Pages — sem depender de jsonbin.io e sem limite de requisições.
 //
 // Variáveis de ambiente esperadas (definidas como Secrets do GitHub Actions):
 //   CVCRM_EMAIL   - e-mail do usuário que gerou o token de API do CV CRM
 //   CVCRM_TOKEN   - token de API v1 do CV CRM
-//   JSONBIN_KEY   - X-Master-Key do jsonbin.io (mesma usada no index.html)
-//   CVCRM_BIN_ID  - id do bin do jsonbin.io que guarda os contadores ao vivo
 //
 // Node 18+ (fetch nativo). Sem dependências externas.
 
+import { writeFile } from 'node:fs/promises';
+
 const CVCRM_BASE = 'https://almeidacarneiro.cvcrm.com.br/api/v1';
 const IMOBILIARIA_ALVO = 'SOLO HOUSE DE VENDAS';
+const OUT_FILE = new URL('../data/cvcrm-live.json', import.meta.url);
 // O dashboard reporta o período Set/25 (início do time) até hoje — leads mais antigos
 // (histórico do CV CRM anterior a isso) são ignorados na agregação.
 const DATA_MINIMA = new Date('2025-09-01T00:00:00');
 
-const { CVCRM_EMAIL, CVCRM_TOKEN, JSONBIN_KEY, CVCRM_BIN_ID } = process.env;
-for (const [k, v] of Object.entries({ CVCRM_EMAIL, CVCRM_TOKEN, JSONBIN_KEY, CVCRM_BIN_ID })) {
+const { CVCRM_EMAIL, CVCRM_TOKEN } = process.env;
+for (const [k, v] of Object.entries({ CVCRM_EMAIL, CVCRM_TOKEN })) {
   if (!v) { console.error(`Faltando variável de ambiente: ${k}`); process.exit(1); }
 }
 
@@ -94,19 +96,12 @@ function aggregate(leads) {
   return { counters: [...byKey.values()], ignorados };
 }
 
-async function pushToJsonbin(counters) {
-  const url = `https://api.jsonbin.io/v3/b/${CVCRM_BIN_ID}`;
+async function writeLiveFile(counters) {
   const body = {
     counters,
     lastEvent: { ts: new Date().toISOString(), source: 'github-actions:sync-cvcrm' },
   };
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`jsonbin PUT respondeu ${res.status}: ${await res.text()}`);
-  return res.json();
+  await writeFile(OUT_FILE, JSON.stringify(body, null, 2) + '\n', 'utf8');
 }
 
 async function main() {
@@ -118,8 +113,8 @@ async function main() {
   console.log(`Corretor/mês agregados: ${counters.length} (leads fora do escopo SOLO/sem data: ${ignorados})`);
   console.table(counters);
 
-  await pushToJsonbin(counters);
-  console.log('✅ jsonbin atualizado com sucesso.');
+  await writeLiveFile(counters);
+  console.log('✅ data/cvcrm-live.json atualizado com sucesso.');
 }
 
 main().catch(err => { console.error('❌ Falhou:', err); process.exit(1); });

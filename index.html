@@ -1863,9 +1863,10 @@ async function saveExtra(data){
 
 // ══════════════════════════════════════════════
 // CVCRM LIVE SYNC — leads/pré-cadastro/reservas automáticos
+// Lido de um arquivo estático no próprio repositório (sem limite de requisições),
+// atualizado pelo workflow .github/workflows/sync-cvcrm.yml a cada 15 min.
 // ══════════════════════════════════════════════
-const CVCRM_BIN_ID='6a58cc74da38895dfe65c412';
-const CVCRM_BIN_URL='https://api.jsonbin.io/v3/b/'+CVCRM_BIN_ID;
+const CVCRM_LIVE_URL='./data/cvcrm-live.json';
 
 function setCvcrmSyncStatus(s,lastEvent){
   const el=document.getElementById('cvcrmSyncStatus');
@@ -1884,12 +1885,12 @@ function setCvcrmSyncStatus(s,lastEvent){
 async function syncCvcrmLive(){
   setCvcrmSyncStatus('syncing');
   try{
-    const res=await fetch(CVCRM_BIN_URL+'/latest',{headers:{'X-Master-Key':JSONBIN_KEY}});
+    const res=await fetch(CVCRM_LIVE_URL+'?t='+Date.now());
     if(!res.ok)throw new Error('HTTP '+res.status);
     const json=await res.json();
-    const counters=json.record?.counters||[];
+    const counters=json.counters||[];
     localStorage.setItem('cvcrmLive',JSON.stringify(counters));
-    setCvcrmSyncStatus('ok',json.record?.lastEvent);
+    setCvcrmSyncStatus('ok',json.lastEvent);
     return true;
   }catch(e){console.warn('CVCRM sync failed:',e);setCvcrmSyncStatus('error');return false;}
 }
@@ -1913,7 +1914,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
         else if(active.id==='comp')renderComp();
       }
     }
-  },30000);
+  },120000);
 });
 </script>
 <div id="adminModal">
