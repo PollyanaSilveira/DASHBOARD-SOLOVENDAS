@@ -83,6 +83,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .card-title .sub{color:var(--muted);font-size:12px;font-weight:400}
 /* ── GRIDS ── */
 .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:20px;margin-bottom:20px}
+.mini3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:6px}
+.mini3-lbl{font-size:12px;font-weight:700;color:var(--black);text-align:center;margin-bottom:4px}
 /* ── TABLE ── */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
@@ -251,7 +253,7 @@ tr:hover td{background:var(--beige-l)}
 /* ── RESP ── */
 @media(max-width:768px){
   .main{padding:14px}.fgrid{grid-template-columns:1fr}
-  .g2{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .g2{grid-template-columns:1fr}.kpi-grid{grid-template-columns:repeat(2,1fr)}.mini3{grid-template-columns:1fr}
   .funnel-label{width:90px;font-size:11px}
   .strip{flex-direction:column;gap:16px}.strip-item::before{display:none}
 }
@@ -330,19 +332,33 @@ tr:hover td{background:var(--beige-l)}
     </div>
     <!-- Tarcyla -->
     <div id="prof-tc" class="profile on">
-      <div class="g2">
-        <div class="card"><div class="card-title">Performance Mensal — Tarcyla</div><canvas id="cTc" height="250"></canvas></div>
-        <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rTc" height="250"></canvas></div>
+      <div class="card">
+        <div class="card-title">Performance Mensal — Tarcyla <span class="sub">Leads · Plantões · Visitas — cada um na sua escala</span></div>
+        <div class="mini3">
+          <div><div class="mini3-lbl">Leads</div><canvas id="cTcLeads" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Plantões</div><canvas id="cTcPlantoes" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Visitas</div><canvas id="cTcVisitas" height="170"></canvas></div>
+        </div>
       </div>
-      <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mTc" style="padding:8px 0"></div></div>
+      <div class="g2">
+        <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rTc" height="250"></canvas></div>
+        <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mTc" style="padding:8px 0"></div></div>
+      </div>
     </div>
     <!-- Samila -->
     <div id="prof-sa" class="profile">
-      <div class="g2">
-        <div class="card"><div class="card-title">Performance Mensal — Samila</div><canvas id="cSa" height="250"></canvas></div>
-        <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rSa" height="250"></canvas></div>
+      <div class="card">
+        <div class="card-title">Performance Mensal — Samila <span class="sub">Leads · Plantões · Visitas — cada um na sua escala</span></div>
+        <div class="mini3">
+          <div><div class="mini3-lbl">Leads</div><canvas id="cSaLeads" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Plantões</div><canvas id="cSaPlantoes" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Visitas</div><canvas id="cSaVisitas" height="170"></canvas></div>
+        </div>
       </div>
-      <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mSa" style="padding:8px 0"></div></div>
+      <div class="g2">
+        <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rSa" height="250"></canvas></div>
+        <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mSa" style="padding:8px 0"></div></div>
+      </div>
     </div>
     <!-- Thais -->
     <div id="prof-th" class="profile">
@@ -351,11 +367,18 @@ tr:hover td{background:var(--beige-l)}
         <div style="font-size:15px;font-weight:600;margin-bottom:5px;color:var(--black)">Thais Lopes — Inativa desde Mar/2026</div>
         <div style="font-size:13px">Histórico: Out/2025 a Fev/2026 (5 meses)</div>
       </div>
-      <div class="g2">
-        <div class="card"><div class="card-title">Performance Mensal — Thais</div><canvas id="cTh" height="250"></canvas></div>
-        <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rTh" height="250"></canvas></div>
+      <div class="card">
+        <div class="card-title">Performance Mensal — Thais <span class="sub">Leads · Plantões · Visitas — cada um na sua escala</span></div>
+        <div class="mini3">
+          <div><div class="mini3-lbl">Leads</div><canvas id="cThLeads" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Plantões</div><canvas id="cThPlantoes" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Visitas</div><canvas id="cThVisitas" height="170"></canvas></div>
+        </div>
       </div>
-      <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mTh" style="padding:8px 0"></div></div>
+      <div class="g2">
+        <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rTh" height="250"></canvas></div>
+        <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mTh" style="padding:8px 0"></div></div>
+      </div>
     </div>
   </section>
 
@@ -802,6 +825,47 @@ Chart.defaults.color='#6B7280';
 Chart.defaults.borderColor='#D8D3CC';
 Chart.defaults.font.family='Inter';
 
+// Escreve o valor de cada barra em cima dela — pra não depender de passar o mouse
+// pra ver o número. Usado nos mini-gráficos de "Performance Mensal".
+Chart.register({
+  id:'valueOnBar',
+  afterDatasetsDraw(chart){
+    if(chart.config.type!=='bar')return;
+    const {ctx}=chart;
+    chart.data.datasets.forEach((ds,i)=>{
+      const meta=chart.getDatasetMeta(i);
+      meta.data.forEach((bar,idx)=>{
+        const v=ds.data[idx];
+        if(v===null||v===undefined)return;
+        ctx.save();
+        ctx.fillStyle='#111827';
+        ctx.font='700 12px Inter, sans-serif';
+        ctx.textAlign='center';
+        ctx.fillText(v,bar.x,bar.y-6);
+        ctx.restore();
+      });
+    });
+  }
+});
+
+// Mini-gráfico de barra de uma métrica só, com escala própria (sem eixo Y — o
+// número já fica escrito em cima de cada barra) e sem legenda (o título já diz
+// o que é). Usado nos 3 mini-gráficos de "Performance Mensal".
+function mkMiniBar(id,mos,data,color){
+  mkChart(id,'bar',mos,[{data,backgroundColor:color,borderRadius:5,maxBarThickness:34}],{
+    layout:{padding:{top:18}},
+    plugins:{
+      legend:{display:false},
+      tooltip:{backgroundColor:'#162255',borderColor:'#1E2E6E',borderWidth:1,padding:10,
+        titleFont:{size:12,weight:'600'},bodyFont:{size:12},titleColor:'#fff',bodyColor:'rgba(255,255,255,.85)'}
+    },
+    scales:{
+      x:{grid:{display:false},ticks:{color:'#6B7280',font:{size:11}}},
+      y:{display:false,beginAtZero:true,grace:'12%'}
+    }
+  });
+}
+
 const C={tc:'#FF2D87',sa:'#FF6B00',th:'#94A3B8',navy:'#0D2545',silver:'#8B93A7'};
 
 const CI={};
@@ -916,11 +980,9 @@ function renderProfile(key){
   const mos=data.map(d=>d.m);
   const capId=key.charAt(0).toUpperCase()+key.slice(1);
 
-  mkChart('c'+capId,'line',mos,[
-    {label:'Leads',   data:data.map(d=>leads(d)),borderColor:col,backgroundColor:col+'15',tension:.4,pointRadius:5,pointBackgroundColor:col,fill:true},
-    {label:'Plantões',data:data.map(d=>d.pl),borderColor:C.silver,borderDash:[5,3],tension:.4,pointRadius:4},
-    {label:'Visitas', data:data.map(d=>d.vi),borderColor:'#D97706',tension:.4,pointRadius:4},
-  ]);
+  mkMiniBar('c'+capId+'Leads',   mos, data.map(d=>leads(d)), col);
+  mkMiniBar('c'+capId+'Plantoes',mos, data.map(d=>d.pl),     C.silver);
+  mkMiniBar('c'+capId+'Visitas', mos, data.map(d=>d.vi),     '#D97706');
 
   const n=data.length||1;
   const avgPl=sum(data,'pl')/n,avgVi=sum(data,'vi')/n;
