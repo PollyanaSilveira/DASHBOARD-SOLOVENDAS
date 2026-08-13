@@ -153,6 +153,11 @@ tr:hover td{background:var(--beige-l)}
 .b2{background:var(--silver-l);color:var(--navy)}.b3{background:#D4A676;color:#fff}
 /* ── PROJ BADGE ── */
 .proj-badge{display:inline-flex;align-items:center;gap:4px;background:var(--blue-l);color:var(--blue);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.proj-callout{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
+.proj-callout-item{border:1.5px solid;border-radius:10px;padding:14px 16px;background:var(--beige-l)}
+.proj-callout-lbl{font-size:12px;font-weight:700;margin-bottom:6px}
+.proj-callout-val{font-size:22px;font-weight:800;color:var(--black)}
+@media (max-width:760px){.proj-callout{grid-template-columns:1fr}}
 /* ── HEATMAP ── */
 .hm-cell{border-radius:5px;padding:5px 8px;font-size:12px;font-weight:700;text-align:center;min-width:56px}
 /* ── DIVIDER ── */
@@ -386,8 +391,19 @@ tr:hover td{background:var(--beige-l)}
   <section id="tend" class="sec">
     <div class="sec-title">Tendências & Projeções</div>
     <div class="card" style="margin-bottom:20px">
-      <div class="card-title">Projeção de Leads — Próximos 2 Meses <span class="proj-badge">🔮 Regressão linear</span></div>
-      <canvas id="cProj" height="260"></canvas>
+      <div class="card-title">Leads por Mês <span class="sub">Tarcyla e Samila — números reais</span></div>
+      <canvas id="cProj" height="240"></canvas>
+      <div class="proj-callout">
+        <div class="proj-callout-item" style="border-color:var(--tc)">
+          <div class="proj-callout-lbl" style="color:var(--tc)">Tarcyla — projeção <span id="projTcMes"></span></div>
+          <div class="proj-callout-val">~<span id="projTcVal">–</span> leads</div>
+        </div>
+        <div class="proj-callout-item" style="border-color:var(--sa)">
+          <div class="proj-callout-lbl" style="color:var(--sa)">Samila — projeção <span id="projSaMes"></span></div>
+          <div class="proj-callout-val">~<span id="projSaVal">–</span> leads</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:10px">🔮 Projeção por regressão linear com base no histórico real, só pro próximo mês — pra manter a estimativa confiável.</div>
     </div>
     <div class="g2">
       <div class="card"><div class="card-title">Vendas Acumuladas no Período</div><canvas id="cVAcum" height="220"></canvas></div>
@@ -1034,28 +1050,36 @@ function linReg(arr){
   return{slope,int:(sy-slope*sx)/n};
 }
 
+function proximoMes(mesAtual){
+  const ord=MONTH_ORD[mesAtual];
+  if(ord===undefined)return'—';
+  const achado=Object.entries(MONTH_ORD).find(([,v])=>v===ord+1);
+  return achado?achado[0]:'—';
+}
+
 function renderTend(){
-  const tD=byC('Tarcyla'),sD=byC('Samila');
-  const tL=tD.map(d=>leads(d)),sL=sD.map(d=>leads(d));
-  const tR=linReg(tL),sR=linReg(sL);
-  const futMos=['Jun/26','Jul/26'];
-  const realMos=MONTHS_BASE;
-  const tProj=futMos.map((_,i)=>Math.max(0,Math.round(tR.slope*(tL.length+i)+tR.int)));
-  const sProj=futMos.map((_,i)=>Math.max(0,Math.round(sR.slope*(sL.length+i)+sR.int)));
-  const allMos=[...realMos,...futMos];
-  const pad=(arr,total)=>{
-    const sl=arr.slice(0,total);
-    return[...sl,...Array(Math.max(0,total-sl.length)).fill(null)];
-  };
-
-  mkChart('cProj','line',allMos,[
-    {label:'Tarcyla (real)',    data:pad(tL,MONTHS_BASE.length),borderColor:C.tc,backgroundColor:C.tc+'12',tension:.4,pointRadius:5,spanGaps:false,fill:true},
-    {label:'Tarcyla (projeção)',data:[...Array(MONTHS_BASE.length).fill(null),...tProj],borderColor:C.tc,borderDash:[8,4],pointStyle:'triangle',pointRadius:8,spanGaps:false},
-    {label:'Samila (real)',     data:pad(sL,MONTHS_BASE.length),borderColor:C.sa,backgroundColor:C.sa+'12',tension:.4,pointRadius:5,spanGaps:false,fill:true},
-    {label:'Samila (projeção)', data:[...Array(MONTHS_BASE.length).fill(null),...sProj],borderColor:C.sa,borderDash:[8,4],pointStyle:'triangle',pointRadius:8,spanGaps:false},
-  ]);
-
+  // Usa os meses reais existentes (getMonths já une BASE + CVCRM ao vivo) —
+  // nada de meses fixos, senão a projeção acaba caindo em cima de mês que já tem dado real.
   const mos=getMonths();
+  const tD=byC('Tarcyla'),sD=byC('Samila');
+  const tL=mos.map(mo=>{const d=tD.find(x=>x.m===mo);return d?leads(d):0});
+  const sL=mos.map(mo=>{const d=sD.find(x=>x.m===mo);return d?leads(d):0});
+  const tR=linReg(tL),sR=linReg(sL);
+  const proxMes=proximoMes(mos[mos.length-1]);
+  const tProj=Math.max(0,Math.round(tR.slope*tL.length+tR.int));
+  const sProj=Math.max(0,Math.round(sR.slope*sL.length+sR.int));
+
+  mkChart('cProj','bar',mos,[
+    {label:'Tarcyla',data:tL,backgroundColor:C.tc,borderRadius:5,maxBarThickness:26},
+    {label:'Samila', data:sL,backgroundColor:C.sa,borderRadius:5,maxBarThickness:26},
+  ],{
+    scales:{x:{grid:{display:false}},y:{display:false,beginAtZero:true,grace:'15%'}}
+  });
+  document.getElementById('projTcMes').textContent=proxMes;
+  document.getElementById('projSaMes').textContent=proxMes;
+  document.getElementById('projTcVal').textContent=tProj;
+  document.getElementById('projSaVal').textContent=sProj;
+
   let ta=0,sa=0,tha=0;
   const tacc=[],sacc=[],thacc=[];
   mos.forEach(mo=>{
