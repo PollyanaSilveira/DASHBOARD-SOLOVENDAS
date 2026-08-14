@@ -34,6 +34,10 @@ const NOME_CURTO = {
   'SAMILA COSTA GONÇALVES': 'Samila',
 };
 
+// Gestor/admin da imobiliária, não é corretora de linha de frente — fica de fora dos
+// totais do painel (leads às vezes ficam com ele atribuído, mas não é "equipe SOLO").
+const CORRETORES_EXCLUIDOS = new Set(['ALBANO NERY SILVA']);
+
 function nomeCurto(nomeCompleto) {
   const norm = (nomeCompleto || '').trim().toUpperCase();
   if (NOME_CURTO[norm]) return NOME_CURTO[norm];
@@ -88,6 +92,7 @@ function aggregate(leads) {
     if (imob !== IMOBILIARIA_ALVO) { ignorados++; continue; }
     const corretorNome = lead.corretor?.nome;
     if (!corretorNome) { ignorados++; continue; }
+    if (CORRETORES_EXCLUIDOS.has(corretorNome.trim().toUpperCase())) { ignorados++; continue; }
     const m = mesAno(lead.data_cad);
     if (!m) { ignorados++; continue; }
     const c = nomeCurto(corretorNome);
