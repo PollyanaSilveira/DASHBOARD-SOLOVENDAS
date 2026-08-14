@@ -287,8 +287,8 @@ tr:hover td{background:var(--beige-l)}
   <button class="nav-btn" onclick="goSec('desemp',this)">👤 Desempenho</button>
   <button class="nav-btn" onclick="goSec('tend',this)">📈 Tendências</button>
   <button class="nav-btn" onclick="goSec('ins',this)">💡 Insights</button>
-  <button class="nav-btn" onclick="goSec('dados',this)">📋 Dados</button>
-  <button class="nav-btn" onclick="goSec('comp',this)">🔀 Comparativo</button>
+  <button class="nav-btn admin-only" onclick="goSec('dados',this)">📋 Dados</button>
+  <button class="nav-btn admin-only" onclick="goSec('comp',this)">🔀 Comparativo</button>
   <button class="nav-btn" onclick="goSec('blv',this)">🏙️ Boulevard</button>
 </nav>
 
@@ -1907,6 +1907,13 @@ function exitAdmin(){
   document.body.classList.remove('admin-mode');
   document.getElementById('adminBtn').classList.remove('on');
   document.getElementById('adminBtn').innerHTML='🔒 Admin';
+  // Se estava numa aba só-admin (Dados/Comparativo), volta pra Visão Geral
+  // pra não deixar essa aba visível pro público depois de sair do modo admin.
+  const ativa=document.querySelector('.sec.on');
+  if(ativa&&(ativa.id==='dados'||ativa.id==='comp')){
+    const geralBtn=document.querySelector('.nav-btn[onclick*="geral"]');
+    if(geralBtn)goSec('geral',geralBtn);
+  }
 }
 // ══════════════════════════════════════════════
 // CLOUD SYNC — JSONBin.io
