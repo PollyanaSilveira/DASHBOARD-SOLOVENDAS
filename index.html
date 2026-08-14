@@ -340,9 +340,9 @@ tr:hover td{background:var(--beige-l)}
       <div class="card">
         <div class="card-title">Performance Mensal — Tarcyla <span class="sub">Leads · Plantões · Visitas — cada um na sua escala</span></div>
         <div class="mini3">
-          <div><div class="mini3-lbl">Leads</div><canvas id="cTcLeads" height="170"></canvas></div>
-          <div><div class="mini3-lbl">Plantões</div><canvas id="cTcPlantoes" height="170"></canvas></div>
-          <div><div class="mini3-lbl">Visitas</div><canvas id="cTcVisitas" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Leads</div><div style="height:170px;position:relative"><canvas id="cTcLeads"></canvas></div></div>
+          <div><div class="mini3-lbl">Plantões</div><div style="height:170px;position:relative"><canvas id="cTcPlantoes"></canvas></div></div>
+          <div><div class="mini3-lbl">Visitas</div><div style="height:170px;position:relative"><canvas id="cTcVisitas"></canvas></div></div>
         </div>
       </div>
       <div class="g2">
@@ -355,9 +355,9 @@ tr:hover td{background:var(--beige-l)}
       <div class="card">
         <div class="card-title">Performance Mensal — Samila <span class="sub">Leads · Plantões · Visitas — cada um na sua escala</span></div>
         <div class="mini3">
-          <div><div class="mini3-lbl">Leads</div><canvas id="cSaLeads" height="170"></canvas></div>
-          <div><div class="mini3-lbl">Plantões</div><canvas id="cSaPlantoes" height="170"></canvas></div>
-          <div><div class="mini3-lbl">Visitas</div><canvas id="cSaVisitas" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Leads</div><div style="height:170px;position:relative"><canvas id="cSaLeads"></canvas></div></div>
+          <div><div class="mini3-lbl">Plantões</div><div style="height:170px;position:relative"><canvas id="cSaPlantoes"></canvas></div></div>
+          <div><div class="mini3-lbl">Visitas</div><div style="height:170px;position:relative"><canvas id="cSaVisitas"></canvas></div></div>
         </div>
       </div>
       <div class="g2">
@@ -375,9 +375,9 @@ tr:hover td{background:var(--beige-l)}
       <div class="card">
         <div class="card-title">Performance Mensal — Thais <span class="sub">Leads · Plantões · Visitas — cada um na sua escala</span></div>
         <div class="mini3">
-          <div><div class="mini3-lbl">Leads</div><canvas id="cThLeads" height="170"></canvas></div>
-          <div><div class="mini3-lbl">Plantões</div><canvas id="cThPlantoes" height="170"></canvas></div>
-          <div><div class="mini3-lbl">Visitas</div><canvas id="cThVisitas" height="170"></canvas></div>
+          <div><div class="mini3-lbl">Leads</div><div style="height:170px;position:relative"><canvas id="cThLeads"></canvas></div></div>
+          <div><div class="mini3-lbl">Plantões</div><div style="height:170px;position:relative"><canvas id="cThPlantoes"></canvas></div></div>
+          <div><div class="mini3-lbl">Visitas</div><div style="height:170px;position:relative"><canvas id="cThVisitas"></canvas></div></div>
         </div>
       </div>
       <div class="g2">
@@ -392,7 +392,7 @@ tr:hover td{background:var(--beige-l)}
     <div class="sec-title">Tendências & Projeções</div>
     <div class="card" style="margin-bottom:20px">
       <div class="card-title">Leads por Mês <span class="sub">Tarcyla e Samila — números reais</span></div>
-      <canvas id="cProj" height="240"></canvas>
+      <div style="height:280px;position:relative"><canvas id="cProj"></canvas></div>
       <div class="proj-callout">
         <div class="proj-callout-item" style="border-color:var(--tc)">
           <div class="proj-callout-lbl" style="color:var(--tc)">Tarcyla — projeção <span id="projTcMes"></span></div>
@@ -869,6 +869,7 @@ Chart.register({
 // o que é). Usado nos 3 mini-gráficos de "Performance Mensal".
 function mkMiniBar(id,mos,data,color){
   mkChart(id,'bar',mos,[{data,backgroundColor:color,borderRadius:5,maxBarThickness:34}],{
+    maintainAspectRatio:false,
     layout:{padding:{top:18}},
     plugins:{
       legend:{display:false},
@@ -1073,6 +1074,7 @@ function renderTend(){
     {label:'Tarcyla',data:tL,backgroundColor:C.tc,borderRadius:5,maxBarThickness:26},
     {label:'Samila', data:sL,backgroundColor:C.sa,borderRadius:5,maxBarThickness:26},
   ],{
+    maintainAspectRatio:false,
     layout:{padding:{top:24}},
     scales:{x:{grid:{display:false}},y:{display:false,beginAtZero:true,grace:'15%'}}
   });
