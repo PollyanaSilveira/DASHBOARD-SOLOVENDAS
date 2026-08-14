@@ -84,6 +84,12 @@ async function fetchAllLeads() {
   return leads;
 }
 
+function getOrCreate(byKey, c, m) {
+  const key = `${c}|${m}`;
+  if (!byKey.has(key)) byKey.set(key, { c, m, ln: 0, ls: 0, ve: 0 });
+  return byKey.get(key);
+}
+
 function aggregate(leads) {
   const byKey = new Map(); // "corretor|mes" -> {c,m,ln,ls,ve}
   let ignorados = 0;
@@ -93,14 +99,23 @@ function aggregate(leads) {
     const corretorNome = lead.corretor?.nome;
     if (!corretorNome) { ignorados++; continue; }
     if (CORRETORES_EXCLUIDOS.has(corretorNome.trim().toUpperCase())) { ignorados++; continue; }
-    const m = mesAno(lead.data_cad);
-    if (!m) { ignorados++; continue; }
     const c = nomeCurto(corretorNome);
-    const key = `${c}|${m}`;
-    if (!byKey.has(key)) byKey.set(key, { c, m, ln: 0, ls: 0, ve: 0 });
-    const bucket = byKey.get(key);
-    if (ehTrafegoSdr(lead)) bucket.ls++; else bucket.ln++;
-    if (lead.situacao?.nome === 'Venda Realizada') bucket.ve++;
+
+    // Leads (ln/ls): contados no mês em que o lead foi CADASTRADO.
+    const mLead = mesAno(lead.data_cad);
+    if (mLead) {
+      const bucket = getOrCreate(byKey, c, mLead);
+      if (ehTrafegoSdr(lead)) bucket.ls++; else bucket.ln++;
+    }
+
+    // Vendas (ve): contadas no mês da ÚLTIMA CONVERSÃO do lead (quando o status
+    // mudou pra "Venda Realizada"), não no mês de cadastro — um lead pode ter sido
+    // cadastrado meses antes de virar venda. ultima_data_conversao fica bem perto
+    // da data real da reserva/venda (testado manualmente, poucos dias de diferença).
+    if (lead.situacao?.nome === 'Venda Realizada') {
+      const mVenda = mesAno(lead.ultima_data_conversao || lead.data_cad);
+      if (mVenda) getOrCreate(byKey, c, mVenda).ve++;
+    }
   }
   return { counters: [...byKey.values()], ignorados };
 }
