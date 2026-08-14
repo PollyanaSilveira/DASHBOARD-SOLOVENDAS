@@ -12,21 +12,21 @@
       "m": "Ago/26",
       "ln": 2,
       "ls": 5,
-      "ve": 0
+      "ve": 1
     },
     {
       "c": "Tarcyla",
       "m": "Jul/26",
       "ln": 57,
       "ls": 15,
-      "ve": 3
+      "ve": 6
     },
     {
       "c": "Samila",
       "m": "Jul/26",
       "ln": 12,
       "ls": 22,
-      "ve": 0
+      "ve": 1
     },
     {
       "c": "Tarcyla",
@@ -61,7 +61,7 @@
       "m": "Abr/26",
       "ln": 5,
       "ls": 11,
-      "ve": 0
+      "ve": 1
     },
     {
       "c": "Tarcyla",
@@ -82,14 +82,14 @@
       "m": "Mar/26",
       "ln": 19,
       "ls": 4,
-      "ve": 0
+      "ve": 1
     },
     {
       "c": "Samila",
       "m": "Fev/26",
       "ln": 3,
       "ls": 29,
-      "ve": 2
+      "ve": 0
     },
     {
       "c": "Tarcyla",
@@ -103,14 +103,14 @@
       "m": "Jan/26",
       "ln": 33,
       "ls": 30,
-      "ve": 1
+      "ve": 0
     },
     {
       "c": "Samila",
       "m": "Jan/26",
       "ln": 19,
       "ls": 34,
-      "ve": 1
+      "ve": 0
     },
     {
       "c": "Tarcyla",
@@ -170,7 +170,7 @@
     }
   ],
   "lastEvent": {
-    "ts": "2026-08-14T18:33:56.121Z",
+    "ts": "2026-08-14T19:01:12.580Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
