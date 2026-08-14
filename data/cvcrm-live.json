@@ -3,210 +3,244 @@
     {
       "c": "Tarcyla",
       "m": "Ago/26",
-      "ln": 34,
-      "ls": 6
+      "ln": 35,
+      "ls": 6,
+      "ve": 1
     },
     {
       "c": "Samila",
       "m": "Ago/26",
       "ln": 2,
-      "ls": 5
+      "ls": 5,
+      "ve": 0
     },
     {
       "c": "Tarcyla",
       "m": "Jul/26",
       "ln": 57,
-      "ls": 15
+      "ls": 15,
+      "ve": 3
     },
     {
       "c": "Samila",
       "m": "Jul/26",
       "ln": 12,
-      "ls": 22
+      "ls": 22,
+      "ve": 0
     },
     {
       "c": "Albano",
       "m": "Jul/26",
       "ln": 14,
-      "ls": 0
+      "ls": 0,
+      "ve": 12
     },
     {
       "c": "Tarcyla",
       "m": "Jun/26",
       "ln": 26,
-      "ls": 25
+      "ls": 25,
+      "ve": 1
     },
     {
       "c": "Samila",
       "m": "Jun/26",
       "ln": 11,
-      "ls": 27
+      "ls": 27,
+      "ve": 0
     },
     {
       "c": "Albano",
       "m": "Jun/26",
       "ln": 1,
-      "ls": 1
+      "ls": 1,
+      "ve": 0
     },
     {
       "c": "Samila",
       "m": "Mai/26",
       "ln": 13,
-      "ls": 14
+      "ls": 14,
+      "ve": 0
     },
     {
       "c": "Tarcyla",
       "m": "Mai/26",
       "ln": 34,
-      "ls": 9
+      "ls": 9,
+      "ve": 0
     },
     {
       "c": "Albano",
       "m": "Mai/26",
       "ln": 7,
-      "ls": 0
+      "ls": 0,
+      "ve": 2
     },
     {
       "c": "Samila",
       "m": "Abr/26",
       "ln": 5,
-      "ls": 11
+      "ls": 11,
+      "ve": 0
     },
     {
       "c": "Tarcyla",
       "m": "Abr/26",
       "ln": 5,
-      "ls": 10
+      "ls": 10,
+      "ve": 0
     },
     {
       "c": "Samila",
       "m": "Mar/26",
       "ln": 6,
-      "ls": 7
+      "ls": 7,
+      "ve": 0
     },
     {
       "c": "Tarcyla",
       "m": "Mar/26",
       "ln": 19,
-      "ls": 4
+      "ls": 4,
+      "ve": 0
     },
     {
       "c": "Albano",
       "m": "Mar/26",
       "ln": 15,
-      "ls": 1
+      "ls": 1,
+      "ve": 5
     },
     {
       "c": "Samila",
       "m": "Fev/26",
       "ln": 3,
-      "ls": 29
+      "ls": 29,
+      "ve": 2
     },
     {
       "c": "Tarcyla",
       "m": "Fev/26",
       "ln": 33,
-      "ls": 14
+      "ls": 14,
+      "ve": 0
     },
     {
       "c": "Albano",
       "m": "Fev/26",
       "ln": 13,
-      "ls": 1
+      "ls": 1,
+      "ve": 1
     },
     {
       "c": "Tarcyla",
       "m": "Jan/26",
       "ln": 33,
-      "ls": 30
+      "ls": 30,
+      "ve": 1
     },
     {
       "c": "Albano",
       "m": "Jan/26",
       "ln": 38,
-      "ls": 1
+      "ls": 1,
+      "ve": 1
     },
     {
       "c": "Samila",
       "m": "Jan/26",
       "ln": 19,
-      "ls": 34
+      "ls": 34,
+      "ve": 1
     },
     {
       "c": "Tarcyla",
       "m": "Dez/25",
       "ln": 30,
-      "ls": 9
+      "ls": 9,
+      "ve": 0
     },
     {
       "c": "Samila",
       "m": "Dez/25",
       "ln": 8,
-      "ls": 8
+      "ls": 8,
+      "ve": 0
     },
     {
       "c": "Albano",
       "m": "Dez/25",
       "ln": 2,
-      "ls": 0
+      "ls": 0,
+      "ve": 0
     },
     {
       "c": "Samila",
       "m": "Nov/25",
       "ln": 38,
-      "ls": 2
+      "ls": 2,
+      "ve": 0
     },
     {
       "c": "Albano",
       "m": "Nov/25",
       "ln": 3,
-      "ls": 1
+      "ls": 1,
+      "ve": 1
     },
     {
       "c": "Tarcyla",
       "m": "Nov/25",
       "ln": 45,
-      "ls": 1
+      "ls": 1,
+      "ve": 0
     },
     {
       "c": "Tarcyla",
       "m": "Out/25",
       "ln": 43,
-      "ls": 0
+      "ls": 0,
+      "ve": 0
     },
     {
       "c": "Samila",
       "m": "Out/25",
       "ln": 36,
-      "ls": 1
+      "ls": 1,
+      "ve": 0
     },
     {
       "c": "Albano",
       "m": "Out/25",
       "ln": 2,
-      "ls": 0
+      "ls": 0,
+      "ve": 1
     },
     {
       "c": "Samila",
       "m": "Set/25",
       "ln": 18,
-      "ls": 0
+      "ls": 0,
+      "ve": 0
     },
     {
       "c": "Tarcyla",
       "m": "Set/25",
       "ln": 29,
-      "ls": 1
+      "ls": 1,
+      "ve": 1
     },
     {
       "c": "Albano",
       "m": "Set/25",
       "ln": 6,
-      "ls": 0
+      "ls": 0,
+      "ve": 0
     }
   ],
   "lastEvent": {
-    "ts": "2026-08-14T12:12:12.100Z",
+    "ts": "2026-08-14T13:14:12.772Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
