@@ -716,7 +716,7 @@ tr:hover td{background:var(--beige-l)}
       <div class="fgrp"><label class="flbl">Realizadas</label><input class="finp" id="fRe" type="number" min="0" placeholder="0"></div>
       <div class="fgrp"><label class="flbl">Reservas</label><input class="finp" id="fRV" type="number" min="0" placeholder="0"></div>
     </div>
-    <div style="font-size:11px;color:var(--muted);margin:-10px 0 14px 2px">🔗 Pré-cadastro, Leads e Reservas são preenchidos automaticamente quando o CVCRM está sincronizado para o mês — a edição manual aqui vale só até o próximo evento do CVCRM.</div>
+    <div style="font-size:11px;color:var(--muted);margin:-10px 0 14px 2px">🔗 Leads e Vendas são preenchidos automaticamente pelo CV CRM a cada 15 min — a edição manual aqui vale só até a próxima sincronização. Pré-cadastro e Reservas ficam manuais (a API não libera isso sem senha). Plantões, Pit Stop, Visitas e Agendamentos são sempre manuais (não existem no CV CRM).</div>
     <div class="f-actions">
       <button class="btn btn-sec" onclick="closeModal()">Cancelar</button>
       <button class="btn btn-prim" onclick="saveEntry()">Salvar Dados</button>
@@ -816,13 +816,13 @@ function allData(){
   const newEntries=extra.filter(e=>!BASE.find(b=>b.c===e.c&&b.m===e.m));
   const combined=[...merged,...newEntries].map(d=>{
     const live=cvcrm.find(e=>e.c===d.c&&e.m===d.m);
-    // Camada CVCRM: sobrescreve ln/ls e preenche pc/rv, sem tocar em pl/pit/vi/ag/ve/re
+    // Camada CVCRM: sobrescreve ln/ls/ve e preenche pc/rv, sem tocar em pl/pit/vi/ag
     if(!live)return{...d,pc:d.pc||0,rv:d.rv||0};
-    return{...d,ln:live.ln||0,ls:live.ls||0,pc:live.pc||0,rv:live.rv||0};
+    return{...d,ln:live.ln||0,ls:live.ls||0,ve:live.ve??d.ve??0,pc:live.pc||0,rv:live.rv||0};
   });
   // Corretor/mês que só existem no CVCRM (mês novo, ninguém lançou dados manuais ainda)
   const cvcrmOnly=cvcrm.filter(e=>!combined.find(d=>d.c===e.c&&d.m===e.m))
-    .map(e=>({c:e.c,m:e.m,pl:0,pit:0,vi:0,ag:0,ve:0,re:0,ln:e.ln||0,ls:e.ls||0,pc:e.pc||0,rv:e.rv||0}));
+    .map(e=>({c:e.c,m:e.m,pl:0,pit:0,vi:0,ag:0,ve:e.ve||0,re:0,ln:e.ln||0,ls:e.ls||0,pc:e.pc||0,rv:e.rv||0}));
   return[...combined,...cvcrmOnly].sort((a,b)=>(MONTH_ORD[a.m]??99)-(MONTH_ORD[b.m]??99)||(a.c<b.c?-1:1));
 }
 function byC(name){return allData().filter(d=>d.c===name)}

@@ -1,6 +1,9 @@
-// Sincroniza leads do CV CRM (equipe SOLO House de Vendas) para um arquivo estático
-// (data/cvcrm-live.json) no próprio repositório, que o dashboard (index.html) consome
-// direto do GitHub Pages — sem depender de jsonbin.io e sem limite de requisições.
+// Sincroniza leads e vendas do CV CRM (equipe SOLO House de Vendas) para um arquivo
+// estático (data/cvcrm-live.json) no próprio repositório, que o dashboard (index.html)
+// consome direto do GitHub Pages — sem depender de jsonbin.io e sem limite de requisições.
+// Plantões/Visitas/Pit Stop/Agendamentos continuam manuais (não existem no CV CRM).
+// Pré-cadastro/Reservas continuam manuais (a API só permite ler isso com login por
+// senha, que não guardamos num robô).
 //
 // Variáveis de ambiente esperadas (definidas como Secrets do GitHub Actions):
 //   CVCRM_EMAIL   - e-mail do usuário que gerou o token de API do CV CRM
@@ -78,7 +81,7 @@ async function fetchAllLeads() {
 }
 
 function aggregate(leads) {
-  const byKey = new Map(); // "corretor|mes" -> {c,m,ln,ls}
+  const byKey = new Map(); // "corretor|mes" -> {c,m,ln,ls,ve}
   let ignorados = 0;
   for (const lead of leads) {
     const imob = lead.imobiliaria?.nome?.trim().toUpperCase();
@@ -89,9 +92,10 @@ function aggregate(leads) {
     if (!m) { ignorados++; continue; }
     const c = nomeCurto(corretorNome);
     const key = `${c}|${m}`;
-    if (!byKey.has(key)) byKey.set(key, { c, m, ln: 0, ls: 0 });
+    if (!byKey.has(key)) byKey.set(key, { c, m, ln: 0, ls: 0, ve: 0 });
     const bucket = byKey.get(key);
     if (ehTrafegoSdr(lead)) bucket.ls++; else bucket.ln++;
+    if (lead.situacao?.nome === 'Venda Realizada') bucket.ve++;
   }
   return { counters: [...byKey.values()], ignorados };
 }
