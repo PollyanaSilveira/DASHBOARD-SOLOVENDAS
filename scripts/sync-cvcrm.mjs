@@ -32,6 +32,7 @@ const MONTH_ABBR = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out',
 const NOME_CURTO = {
   'TARCYLA SANTOS SODRÉ': 'Tarcyla',
   'SAMILA COSTA GONÇALVES': 'Samila',
+  'JOÃO PEDRO RAMOS CORDEIRO': 'João',
 };
 
 // Gestor/admin da imobiliária, não é corretora de linha de frente — fica de fora dos
