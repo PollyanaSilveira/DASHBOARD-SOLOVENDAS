@@ -1,16 +1,16 @@
 {
   "counters": [
     {
-      "c": "Samila",
+      "c": "Tarcyla",
       "m": "Ago/26",
-      "ln": 2,
+      "ln": 36,
       "ls": 6,
       "ve": 1
     },
     {
-      "c": "Tarcyla",
+      "c": "Samila",
       "m": "Ago/26",
-      "ln": 35,
+      "ln": 2,
       "ls": 6,
       "ve": 1
     },
@@ -170,7 +170,7 @@
     }
   ],
   "lastEvent": {
-    "ts": "2026-08-17T10:48:43.325Z",
+    "ts": "2026-08-17T11:22:40.175Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
