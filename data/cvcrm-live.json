@@ -11,28 +11,28 @@
       "c": "Samila",
       "m": "Set/26",
       "ln": 0,
-      "ls": 1,
+      "ls": 3,
       "ve": 0
     },
     {
       "c": "João",
       "m": "Ago/26",
       "ln": 10,
-      "ls": 3,
+      "ls": 12,
       "ve": 0
     },
     {
       "c": "Samila",
       "m": "Ago/26",
       "ln": 4,
-      "ls": 8,
+      "ls": 14,
       "ve": 1
     },
     {
       "c": "Tarcyla",
       "m": "Ago/26",
       "ln": 42,
-      "ls": 9,
+      "ls": 15,
       "ve": 2
     },
     {
@@ -219,7 +219,7 @@
     }
   ],
   "lastEvent": {
-    "ts": "2026-09-02T19:59:28.334Z",
+    "ts": "2026-09-02T22:30:52.632Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
