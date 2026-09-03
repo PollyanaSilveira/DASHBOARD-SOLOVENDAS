@@ -1662,7 +1662,11 @@ function saveEntry(){
 // ══════════════════════════════════════════════
 // CORRIDA DE DESEMPENHO
 // ══════════════════════════════════════════════
-let raceMonth='Jun/26';
+function currentMonthLabel(){
+  const now=new Date();
+  return PT_MONTHS_ABBR[now.getMonth()]+'/'+String(now.getFullYear()).slice(2);
+}
+let raceMonth=currentMonthLabel();
 
 function buildCarSVG(color,darker){
   return`<svg width="80" height="30" viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg">
@@ -1783,11 +1787,14 @@ function openAddRace(){
 }
 
 function buildRaceMonthSelector(){
-  // Show all months that have data + Jun/26 always
+  // Mostra todos os meses com dado + o mês atual real (mesmo sem dado ainda,
+  // pra sempre dar pra abrir a corrida do mês corrente).
   const mos=[...getMonths()];
-  if(!mos.includes('Jun/26'))mos.push('Jun/26');
-  // Auto-select latest month
-  if(!mos.includes(raceMonth))raceMonth=mos[mos.length-1];
+  const curMonth=currentMonthLabel();
+  if(!mos.includes(curMonth))mos.push(curMonth);
+  mos.sort((a,b)=>(MONTH_ORD[a]??99)-(MONTH_ORD[b]??99));
+  // Auto-seleciona o mês atual real (não só "o último da lista")
+  if(!mos.includes(raceMonth))raceMonth=curMonth;
   const sel=document.getElementById('rMonthSel');
   sel.innerHTML=mos.map(m=>`
     <button class="r-month-btn${m===raceMonth?' on':''}" onclick="selectRaceMonth('${m}')">${m}</button>
