@@ -3,7 +3,14 @@
     {
       "c": "João",
       "m": "Set/26",
-      "ln": 3,
+      "ln": 4,
+      "ls": 0,
+      "ve": 0
+    },
+    {
+      "c": "Tarcyla",
+      "m": "Set/26",
+      "ln": 1,
       "ls": 0,
       "ve": 0
     },
@@ -219,7 +226,7 @@
     }
   ],
   "lastEvent": {
-    "ts": "2026-09-03T14:07:42.056Z",
+    "ts": "2026-09-03T17:51:53.092Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
