@@ -20,6 +20,13 @@ const OUT_FILE = new URL('../data/cvcrm-live.json', import.meta.url);
 // (histórico do CV CRM anterior a isso) são ignorados na agregação.
 const DATA_MINIMA = new Date('2025-09-01T00:00:00');
 
+// Data mínima específica por corretor — usada quando alguém entrou na equipe SOLO
+// depois do início geral (Set/25). Sem isso, leads antigos do CV CRM que ficaram
+// atribuídos ao nome da pessoa (de antes dela integrar a SOLO) contariam errado.
+const DATA_MINIMA_POR_CORRETOR = {
+  'JOÃO PEDRO RAMOS CORDEIRO': new Date('2026-08-01T00:00:00'), // entrou em Ago/26
+};
+
 const { CVCRM_EMAIL, CVCRM_TOKEN } = process.env;
 for (const [k, v] of Object.entries({ CVCRM_EMAIL, CVCRM_TOKEN })) {
   if (!v) { console.error(`Faltando variável de ambiente: ${k}`); process.exit(1); }
@@ -46,11 +53,11 @@ function nomeCurto(nomeCompleto) {
   return primeiro.charAt(0) + primeiro.slice(1).toLowerCase();
 }
 
-function mesAno(dataCad) {
+function mesAno(dataCad, minData) {
   // "2026-08-05 14:57:45" -> "Ago/26"
   const d = new Date(dataCad.replace(' ', 'T'));
   if (isNaN(d)) return null;
-  if (d < DATA_MINIMA) return null; // fora do período do dashboard (Set/25 – hoje)
+  if (d < minData) return null; // fora do período válido pra esse corretor
   return `${MONTH_ABBR[d.getMonth()]}/${String(d.getFullYear()).slice(2)}`;
 }
 
@@ -101,9 +108,10 @@ function aggregate(leads) {
     if (!corretorNome) { ignorados++; continue; }
     if (CORRETORES_EXCLUIDOS.has(corretorNome.trim().toUpperCase())) { ignorados++; continue; }
     const c = nomeCurto(corretorNome);
+    const minData = DATA_MINIMA_POR_CORRETOR[corretorNome.trim().toUpperCase()] || DATA_MINIMA;
 
     // Leads (ln/ls): contados no mês em que o lead foi CADASTRADO.
-    const mLead = mesAno(lead.data_cad);
+    const mLead = mesAno(lead.data_cad, minData);
     if (mLead) {
       const bucket = getOrCreate(byKey, c, mLead);
       if (ehTrafegoSdr(lead)) bucket.ls++; else bucket.ln++;
@@ -114,7 +122,7 @@ function aggregate(leads) {
     // cadastrado meses antes de virar venda. ultima_data_conversao fica bem perto
     // da data real da reserva/venda (testado manualmente, poucos dias de diferença).
     if (lead.situacao?.nome === 'Venda Realizada') {
-      const mVenda = mesAno(lead.ultima_data_conversao || lead.data_cad);
+      const mVenda = mesAno(lead.ultima_data_conversao || lead.data_cad, minData);
       if (mVenda) getOrCreate(byKey, c, mVenda).ve++;
     }
   }
