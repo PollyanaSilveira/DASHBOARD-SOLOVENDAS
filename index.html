@@ -135,6 +135,16 @@ tr:hover td{background:var(--beige-l)}
 .mrow-lbl{width:170px;font-size:13px;color:var(--muted)}
 .mrow-bar{flex:1}
 .mrow-val{width:54px;text-align:right;font-size:13px;font-weight:700}
+/* ── GAP DE METAS ── */
+.gap-row{display:flex;align-items:center;gap:12px;margin-bottom:13px;flex-wrap:wrap}
+.gap-row-lbl{width:76px;font-size:13px;color:var(--muted);flex-shrink:0}
+.gap-row-bar{flex:1;min-width:80px}
+.gap-row-val{width:52px;text-align:right;font-size:13px;font-weight:700;color:var(--black);flex-shrink:0}
+.gap-row-status{width:150px;text-align:right;font-size:12px;font-weight:700;flex-shrink:0}
+.gap-insight{background:var(--beige-l);border-left:3px solid var(--navy);border-radius:8px;padding:12px 14px;margin-top:12px;font-size:13px;line-height:1.65;color:var(--text)}
+.gap-insight strong{color:var(--black)}
+.gap-insight+.gap-insight{margin-top:8px}
+@media(max-width:640px){.gap-row-status{width:100%;text-align:left;order:5}}
 /* ── INSIGHT ── */
 .ig2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-bottom:0}
 .ins{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
@@ -369,6 +379,10 @@ tr:hover td{background:var(--beige-l)}
           <div><div class="mini3-lbl">Visitas</div><div style="height:170px;position:relative"><canvas id="cTcVisitas"></canvas></div></div>
         </div>
       </div>
+      <div class="card gap-card" id="gapCardTc" style="margin-bottom:20px">
+        <div class="card-title">🎯 O que falta pra bater a meta <span class="sub">Mês atual · análise automática</span></div>
+        <div id="gapTc"></div>
+      </div>
       <div class="g2">
         <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rTc" height="250"></canvas></div>
         <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mTc" style="padding:8px 0"></div></div>
@@ -384,6 +398,10 @@ tr:hover td{background:var(--beige-l)}
           <div><div class="mini3-lbl">Visitas</div><div style="height:170px;position:relative"><canvas id="cSaVisitas"></canvas></div></div>
         </div>
       </div>
+      <div class="card gap-card" id="gapCardSa" style="margin-bottom:20px">
+        <div class="card-title">🎯 O que falta pra bater a meta <span class="sub">Mês atual · análise automática</span></div>
+        <div id="gapSa"></div>
+      </div>
       <div class="g2">
         <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rSa" height="250"></canvas></div>
         <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mSa" style="padding:8px 0"></div></div>
@@ -398,6 +416,10 @@ tr:hover td{background:var(--beige-l)}
           <div><div class="mini3-lbl">Plantões</div><div style="height:170px;position:relative"><canvas id="cJcPlantoes"></canvas></div></div>
           <div><div class="mini3-lbl">Visitas</div><div style="height:170px;position:relative"><canvas id="cJcVisitas"></canvas></div></div>
         </div>
+      </div>
+      <div class="card gap-card" id="gapCardJc" style="margin-bottom:20px">
+        <div class="card-title">🎯 O que falta pra bater a meta <span class="sub">Mês atual · análise automática</span></div>
+        <div id="gapJc"></div>
       </div>
       <div class="g2">
         <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rJc" height="250"></canvas></div>
@@ -418,6 +440,10 @@ tr:hover td{background:var(--beige-l)}
           <div><div class="mini3-lbl">Plantões</div><div style="height:170px;position:relative"><canvas id="cThPlantoes"></canvas></div></div>
           <div><div class="mini3-lbl">Visitas</div><div style="height:170px;position:relative"><canvas id="cThVisitas"></canvas></div></div>
         </div>
+      </div>
+      <div class="card gap-card" id="gapCardTh" style="margin-bottom:20px">
+        <div class="card-title">🎯 O que falta pra bater a meta <span class="sub">Mês atual · análise automática</span></div>
+        <div id="gapTh"></div>
       </div>
       <div class="g2">
         <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rTh" height="250"></canvas></div>
@@ -1077,6 +1103,8 @@ function renderProfile(key){
       pointLabels:{font:{size:11},color:'#6B7280'},ticks:{display:false}}}}
   );
 
+  renderGapAnalysis(capId,name,col,data);
+
   const el=document.getElementById('m'+capId);
   if(!el)return;
   const metrics=[
@@ -1096,6 +1124,85 @@ function renderProfile(key){
       <div class="mrow-val" style="color:${m.col}">${m.val}</div>
     </div>
   `).join('');
+}
+
+// Analisa o mês mais recente da pessoa contra metas sugeridas e contra a
+// média de conversão do time, e monta um card com o que falta + o que fazer.
+function renderGapAnalysis(capId,name,col,data){
+  const wrap=document.getElementById('gapCard'+capId);
+  const el=document.getElementById('gap'+capId);
+  if(!el||!wrap)return;
+
+  // Se o último registro da pessoa não está entre os 2 meses mais recentes
+  // do dashboard, ela está inativa/sem dado recente — não faz sentido cobrar
+  // meta de um mês que já passou há tempo (ex: Thais).
+  const allMonths=getMonths();
+  const recentMonths=allMonths.slice(-2);
+  const last=data[data.length-1];
+  if(!last||!recentMonths.includes(last.m)){
+    wrap.style.display='none';
+    return;
+  }
+  wrap.style.display='';
+
+  const lastLeads=leads(last), lastVisitas=last.vi||0, lastPlantoes=last.pl||0,
+        lastVendas=last.ve||0, lastAgend=last.ag||0;
+
+  const metaLeads=Math.max(25,lastLeads+5);
+  const metaVisitas=Math.max(4,lastVisitas+1);
+  const metaPlantoes=Math.max(8,lastPlantoes+1);
+  const metaVendas=1;
+
+  const rows=[
+    {lbl:'Leads',    atual:lastLeads,    meta:metaLeads,    un:'leads'},
+    {lbl:'Visitas',  atual:lastVisitas,  meta:metaVisitas,  un:'visita(s)'},
+    {lbl:'Plantões', atual:lastPlantoes, meta:metaPlantoes, un:'plantão(ões)'},
+    {lbl:'Vendas',   atual:lastVendas,   meta:metaVendas,   un:'venda(s)'},
+  ];
+
+  let html=rows.map(r=>{
+    const falta=Math.max(0,r.meta-r.atual);
+    const done=falta===0;
+    return `
+    <div class="gap-row">
+      <div class="gap-row-lbl">${r.lbl}</div>
+      <div class="gap-row-bar"><div class="prog"><div class="prog-fill" style="width:${Math.min(r.atual/r.meta*100,100)}%;background:${done?'var(--ok)':col}"></div></div></div>
+      <div class="gap-row-val">${r.atual}/${r.meta}</div>
+      <div class="gap-row-status" style="color:${done?'var(--ok)':'var(--warn)'}">${done?'✓ Meta batida':'Faltam '+falta+' '+r.un}</div>
+    </div>`;
+  }).join('');
+
+  // Conversão lead -> visita: da pessoa (últimos 3 meses, mais representativo
+  // que só o mês atual) vs média do time inteiro no mesmo período.
+  const last3=data.slice(-3);
+  const myLeads3=sum(last3,'ln')+sum(last3,'ls'), myVisitas3=sum(last3,'vi');
+  const myConv=myLeads3>0?(myVisitas3/myLeads3*100):null;
+
+  const all=allData();
+  const teamLeads=sum(all,'ln')+sum(all,'ls'), teamVisitas=sum(all,'vi');
+  const teamConv=teamLeads>0?(teamVisitas/teamLeads*100):0;
+
+  const insights=[];
+  if(myConv!==null){
+    if(myConv < teamConv-1){
+      insights.push(`📊 Sua taxa de conversão <strong>lead → visita</strong> está em <strong>${myConv.toFixed(1)}%</strong> (últimos 3 meses), abaixo da média do time (<strong>${teamConv.toFixed(1)}%</strong>). Esse é o gargalo mais rápido de destravar: priorize agendar visita com os leads mais quentes antes de buscar leads novos.`);
+    } else {
+      insights.push(`📊 Sua taxa de conversão <strong>lead → visita</strong> está em <strong>${myConv.toFixed(1)}%</strong> (últimos 3 meses), na média ou acima do time (<strong>${teamConv.toFixed(1)}%</strong>). Continue nesse ritmo.`);
+    }
+  }
+  if(lastVendas===0 && lastVisitas>0){
+    insights.push(`🎯 Nenhuma venda fechada ainda em ${last.m}, mas o funil está ativo (<strong>${lastVisitas} visita(s)</strong>). Foco em transformar as visitas em proposta — a venda costuma vir logo depois.`);
+  } else if(lastVendas===0 && lastVisitas===0 && lastLeads>0){
+    insights.push(`⚠️ ${lastLeads} lead(s) em ${last.m} mas nenhuma visita ainda — esse é o gargalo do mês. Sem visita não tem venda: agende com os leads mais quentes primeiro.`);
+  } else if(lastLeads===0 && lastPlantoes===0){
+    insights.push(`⚠️ Nenhum plantão nem lead registrado em ${last.m} até aqui. Presença gera oportunidade — retomar os plantões é o primeiro passo.`);
+  }
+  if(lastAgend===0 && lastLeads>0 && lastVisitas===0){
+    insights.push(`📋 Nenhum agendamento em ${last.m} ainda. Agendar é o passo entre "ter lead" e "fazer visita" — sem isso o funil trava.`);
+  }
+
+  html+=insights.map(t=>`<div class="gap-insight">${t}</div>`).join('');
+  el.innerHTML=html;
 }
 
 // ══════════════════════════════════════════════
