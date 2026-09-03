@@ -28,8 +28,8 @@
   --border:#D8D3CC;
   --text:#111827;
   --muted:#6B7280;
-  --tc:#FF2D87;
-  --sa:#FF6B00;
+  --tc:#C9A227;
+  --sa:#B5651D;
   --jc:#2563EB;
   --th:#94A3B8;
   --ok:#059669;
@@ -94,8 +94,8 @@ td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:13px;color:
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--beige-l)}
 .tag{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.3px}
-.t-tc{background:rgba(22,34,85,.1);color:var(--navy)}
-.t-sa{background:rgba(37,99,235,.1);color:var(--blue)}
+.t-tc{background:rgba(201,162,39,.14);color:var(--tc)}
+.t-sa{background:rgba(181,101,29,.12);color:var(--sa)}
 .t-jc{background:rgba(37,99,235,.1);color:#2563EB}
 .t-th{background:rgba(100,116,139,.1);color:var(--silver)}
 /* ── PROGRESS ── */
@@ -123,8 +123,8 @@ tr:hover td{background:var(--beige-l)}
 .ctabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
 .ctab{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 22px;display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;color:var(--muted);font-family:inherit;box-shadow:var(--shadow)}
 .ctab:hover{border-color:var(--navy);color:var(--navy)}
-.ctab.on-tc{background:rgba(22,34,85,.07);border-color:var(--navy);color:var(--navy);font-weight:700}
-.ctab.on-sa{background:rgba(37,99,235,.07);border-color:var(--blue);color:var(--blue);font-weight:700}
+.ctab.on-tc{background:rgba(201,162,39,.1);border-color:var(--tc);color:var(--tc);font-weight:700}
+.ctab.on-sa{background:rgba(181,101,29,.09);border-color:var(--sa);color:var(--sa);font-weight:700}
 .ctab.on-jc{background:rgba(37,99,235,.07);border-color:#2563EB;color:#2563EB;font-weight:700}
 .ctab.on-th{background:rgba(100,116,139,.07);border-color:var(--silver);color:var(--silver);font-weight:700}
 .ctab-av{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(0,0,0,0.08)}
@@ -928,7 +928,7 @@ function mkMiniBar(id,mos,data,color){
   });
 }
 
-const C={tc:'#FF2D87',sa:'#FF6B00',th:'#94A3B8',jc:'#2563EB',navy:'#0D2545',silver:'#8B93A7'};
+const C={tc:'#C9A227',sa:'#B5651D',th:'#94A3B8',jc:'#2563EB',navy:'#0D2545',silver:'#8B93A7'};
 
 const CI={};
 function mkChart(id,type,labels,datasets,opts={}){
@@ -1360,7 +1360,7 @@ function compInput(corretor,mes,field){
 function compRefreshKpis(){
   const all=allData();
   const corrs=['Tarcyla','Samila','João'];
-  const cols={Tarcyla:'#FF2D87',Samila:'#FF6B00',João:'#2563EB'};
+  const cols={Tarcyla:'#C9A227',Samila:'#B5651D',João:'#2563EB'};
   function getMes(name,mes){
     const d=all.find(x=>x.c===name&&x.m===mes);
     if(!d)return{pl:0,leads:0,vi:0,ag:0,ve:0};
@@ -1389,7 +1389,7 @@ function compRefreshKpis(){
 function compRefreshCharts(){
   const all=allData();
   const corrs=['Tarcyla','Samila','João'];
-  const cols={Tarcyla:'#FF2D87',Samila:'#FF6B00',João:'#2563EB'};
+  const cols={Tarcyla:'#C9A227',Samila:'#B5651D',João:'#2563EB'};
   const METRICS=[{key:'pl',label:'Plantões'},{key:'leads',label:'Leads'},{key:'vi',label:'Visitas'},{key:'ag',label:'Agend.'},{key:'ve',label:'Vendas'}];
   function getMes(name,mes){
     const d=all.find(x=>x.c===name&&x.m===mes);
@@ -1422,7 +1422,7 @@ function compRefreshCharts(){
 function compRefreshDeltas(){
   const all=allData();
   const corrs=['Tarcyla','Samila','João'];
-  const cols={Tarcyla:'#FF2D87',Samila:'#FF6B00',João:'#2563EB'};
+  const cols={Tarcyla:'#C9A227',Samila:'#B5651D',João:'#2563EB'};
   const METRICS=[{key:'pl',label:'Plantões'},{key:'leads',label:'Leads'},{key:'vi',label:'Visitas'},{key:'ag',label:'Agend.'},{key:'ve',label:'Vendas'}];
   function getMes(name,mes){
     const d=all.find(x=>x.c===name&&x.m===mes);
@@ -1463,7 +1463,7 @@ function renderComp(){
   if(elMai)elMai.textContent='📅 '+prev;
   if(elJun)elJun.textContent='📅 '+cur;
   const corrs=['Tarcyla','Samila','João'];
-  const cols={Tarcyla:'#FF2D87',Samila:'#FF6B00',João:'#2563EB'};
+  const cols={Tarcyla:'#C9A227',Samila:'#B5651D',João:'#2563EB'};
 
   // Editable data table
   const FIELDS=[
@@ -1675,7 +1675,7 @@ function buildCarSVG(color,darker){
     <rect x="40" y="5" width="16" height="8" rx="3" fill="rgba(160,220,255,0.55)"/>
     <circle cx="18" cy="26" r="5.5" fill="#1a1a1a"/><circle cx="18" cy="26" r="2.5" fill="#777"/>
     <circle cx="62" cy="26" r="5.5" fill="#1a1a1a"/><circle cx="62" cy="26" r="2.5" fill="#777"/>
-    <polygon points="72,13 80,16.5 72,20" fill="#FF6B00" opacity="0.9"/>
+    <polygon points="72,13 80,16.5 72,20" fill="#B5651D" opacity="0.9"/>
   </svg>`;
 }
 
@@ -1756,8 +1756,8 @@ function showRaceAnimation(scores){
 // Configuração dos competidores da Corrida do Mês — adicionar aqui é o único
 // passo pra incluir mais alguém no futuro (o resto do código é genérico).
 const RACE_CORS=[
-  {key:'Tarcyla',hex:'#FF2D87',dark:'#cc1060',text:'#ffb3d6',img:TC_IMG},
-  {key:'Samila', hex:'#FF6B00',dark:'#cc4400',text:'#ffd4a8',img:SA_IMG},
+  {key:'Tarcyla',hex:'#C9A227',dark:'#7A5B00',text:'#F5D061',img:TC_IMG},
+  {key:'Samila', hex:'#B5651D',dark:'#7A3E10',text:'#E3B08A',img:SA_IMG},
   {key:'João',   hex:'#2563EB',dark:'#1e40af',text:'#bfdbfe',img:JC_IMG},
 ];
 
