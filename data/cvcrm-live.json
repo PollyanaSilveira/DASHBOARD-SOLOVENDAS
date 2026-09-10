@@ -4,7 +4,7 @@
       "c": "Tarcyla",
       "m": "Set/26",
       "ln": 8,
-      "ls": 0,
+      "ls": 1,
       "ve": 0
     },
     {
@@ -198,7 +198,7 @@
     }
   ],
   "lastEvent": {
-    "ts": "2026-09-10T17:42:56.435Z",
+    "ts": "2026-09-10T20:03:25.435Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
