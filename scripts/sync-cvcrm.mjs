@@ -1,7 +1,8 @@
-// Sincroniza leads e vendas do CV CRM (equipe SOLO House de Vendas) para um arquivo
-// estático (data/cvcrm-live.json) no próprio repositório, que o dashboard (index.html)
-// consome direto do GitHub Pages — sem depender de jsonbin.io e sem limite de requisições.
-// Plantões/Visitas/Pit Stop/Agendamentos continuam manuais (não existem no CV CRM).
+// Sincroniza leads, visitas e vendas do CV CRM (equipe SOLO House de Vendas) para um
+// arquivo estático (data/cvcrm-live.json) no próprio repositório, que o dashboard
+// (index.html) consome direto do GitHub Pages — sem depender de jsonbin.io e sem
+// limite de requisições.
+// Plantões/Pit Stop/Agendamentos continuam manuais (não existem no CV CRM).
 // Pré-cadastro/Reservas continuam manuais (a API só permite ler isso com login por
 // senha, que não guardamos num robô).
 //
@@ -66,6 +67,15 @@ function ehTrafegoSdr(lead) {
   return midias.some(m => m.includes('sdr'));
 }
 
+// "Visita Realizada" é o status que o CV CRM usa quando o lead já foi visitado.
+// Conta também quem já virou "Venda Realizada" — quem vendeu com certeza visitou
+// antes, mas o status atual do lead não é mais "Visita Realizada" (a API só guarda
+// o status ATUAL, não o histórico), então sem isso a visita "sumiria" pra quem vendeu.
+function ehVisitaRealizada(lead) {
+  const s = (lead.situacao?.nome || '').trim().toUpperCase();
+  return s.startsWith('VISITA REALIZA') || s === 'VENDA REALIZADA';
+}
+
 async function cvcrmGet(path, params = {}) {
   const url = new URL(CVCRM_BASE + path);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
@@ -94,7 +104,7 @@ async function fetchAllLeads() {
 
 function getOrCreate(byKey, c, m) {
   const key = `${c}|${m}`;
-  if (!byKey.has(key)) byKey.set(key, { c, m, ln: 0, ls: 0, ve: 0 });
+  if (!byKey.has(key)) byKey.set(key, { c, m, ln: 0, ls: 0, vi: 0, ve: 0 });
   return byKey.get(key);
 }
 
@@ -115,6 +125,13 @@ function aggregate(leads) {
     if (mLead) {
       const bucket = getOrCreate(byKey, c, mLead);
       if (ehTrafegoSdr(lead)) bucket.ls++; else bucket.ln++;
+    }
+
+    // Visitas (vi): contadas no mês da ÚLTIMA CONVERSÃO do lead (mesma lógica de
+    // vendas abaixo — o lead pode ter sido cadastrado meses antes da visita).
+    if (ehVisitaRealizada(lead)) {
+      const mVisita = mesAno(lead.ultima_data_conversao || lead.data_cad, minData);
+      if (mVisita) getOrCreate(byKey, c, mVisita).vi++;
     }
 
     // Vendas (ve): contadas no mês da ÚLTIMA CONVERSÃO do lead (quando o status
