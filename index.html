@@ -867,8 +867,12 @@ function normMonth(m){
   const u=t.toUpperCase();
   if(MONTH_NORM[u])return MONTH_NORM[u];
   // Handle formats like 'Jun/2026' -> 'Jun/26'
-  const long=/^([A-Za-zÀ-ÿ]{3,4})\/(\d{4})$/.exec(t);
+  const long=/^([A-Za-zÀ-ÿ]{3,4})\s*\/\s*(\d{4})$/.exec(t);
   if(long)return long[1].charAt(0).toUpperCase()+long[1].slice(1,3).toLowerCase()+'/'+long[2].slice(2);
+  // Handle formats like 'SET/26', 'set / 26', ' Set/26 ' -> 'Set/26'
+  // (canoniza maiúscula/minúscula e espaços, pra nunca duplicar mês por causa de digitação manual)
+  const short=/^([A-Za-zÀ-ÿ]{3,4})\s*\/\s*(\d{2})$/.exec(t);
+  if(short)return short[1].charAt(0).toUpperCase()+short[1].slice(1,3).toLowerCase()+'/'+short[2];
   return t;
 }
 function loadExtra(){try{const r=JSON.parse(localStorage.getItem('soloExtra')||'[]');return r.map(e=>({...e,m:normMonth(e.m)}));}catch{return[]}}
@@ -894,7 +898,25 @@ function allData(){
   // Corretor/mês que só existem no CVCRM (mês novo, ninguém lançou dados manuais ainda)
   const cvcrmOnly=cvcrm.filter(e=>!combined.find(d=>d.c===e.c&&d.m===e.m))
     .map(e=>({c:e.c,m:e.m,pl:0,pit:0,vi:0,ag:0,ve:e.ve||0,re:0,ln:e.ln||0,ls:e.ls||0,pc:e.pc||0,rv:e.rv||0}));
-  return[...combined,...cvcrmOnly].sort((a,b)=>(MONTH_ORD[a.m]??99)-(MONTH_ORD[b.m]??99)||(a.c<b.c?-1:1));
+
+  // Rede de segurança: se por algum motivo (digitação manual com formatação diferente,
+  // por ex.) o mesmo corretor+mês aparecer duas vezes, funde os dois num só em vez de
+  // deixar dois meses "duplicados" nos gráficos — fica sempre o maior valor de cada campo.
+  const byKey=new Map();
+  for(const d of[...combined,...cvcrmOnly]){
+    const key=d.c+'|'+d.m;
+    const prev=byKey.get(key);
+    if(!prev){byKey.set(key,d);continue;}
+    byKey.set(key,{
+      c:d.c,m:d.m,
+      pl:Math.max(prev.pl||0,d.pl||0), pit:Math.max(prev.pit||0,d.pit||0),
+      vi:Math.max(prev.vi||0,d.vi||0), ag:Math.max(prev.ag||0,d.ag||0),
+      ln:Math.max(prev.ln||0,d.ln||0), ls:Math.max(prev.ls||0,d.ls||0),
+      ve:Math.max(prev.ve||0,d.ve||0), re:Math.max(prev.re||0,d.re||0),
+      pc:Math.max(prev.pc||0,d.pc||0), rv:Math.max(prev.rv||0,d.rv||0),
+    });
+  }
+  return[...byKey.values()].sort((a,b)=>(MONTH_ORD[a.m]??99)-(MONTH_ORD[b.m]??99)||(a.c<b.c?-1:1));
 }
 function byC(name){return allData().filter(d=>d.c===name)}
 function sum(arr,f){return arr.reduce((s,d)=>s+(d[f]||0),0)}
