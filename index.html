@@ -1170,7 +1170,7 @@ function renderGapAnalysis(capId,name,col,data){
   const lastLeads=leads(last), lastVisitas=last.vi||0, lastPlantoes=last.pl||0,
         lastVendas=last.ve||0, lastAgend=last.ag||0;
 
-  const metaLeads=Math.max(25,lastLeads+5);
+  const metaLeads=Math.max(30,lastLeads+5); // meta oficial: 30 leads/mês (mín. 1 por dia)
   const metaVisitas=Math.max(4,lastVisitas+1);
   const metaPlantoes=Math.max(8,lastPlantoes+1);
   const metaVendas=1;
@@ -1417,9 +1417,9 @@ function renderInsights(){
 
   const lt=tD[tD.length-1]||{},ls2=sD[sD.length-1]||{},lj=jD[jD.length-1]||{};
   const metas=[
-    {lbl:'🎯 Tarcyla — Leads',  meta:Math.max(25,(leads(lt)||0)+5), atual:leads(lt)||0,col:C.tc},
-    {lbl:'🎯 Samila — Leads',   meta:Math.max(20,(leads(ls2)||0)+5),atual:leads(ls2)||0,col:C.sa},
-    {lbl:'🎯 João — Leads',     meta:Math.max(20,(leads(lj)||0)+5), atual:leads(lj)||0, col:C.jc},
+    {lbl:'🎯 Tarcyla — Leads',  meta:Math.max(30,(leads(lt)||0)+5), atual:leads(lt)||0,col:C.tc},
+    {lbl:'🎯 Samila — Leads',   meta:Math.max(30,(leads(ls2)||0)+5),atual:leads(ls2)||0,col:C.sa},
+    {lbl:'🎯 João — Leads',     meta:Math.max(30,(leads(lj)||0)+5), atual:leads(lj)||0, col:C.jc},
     {lbl:'🏠 Tarcyla — Visitas',meta:Math.max(4,(lt.vi||0)+1),       atual:lt.vi||0,    col:C.tc},
     {lbl:'🏠 Samila — Visitas', meta:Math.max(3,(ls2.vi||0)+1),      atual:ls2.vi||0,   col:C.sa},
     {lbl:'🏠 João — Visitas',   meta:Math.max(3,(lj.vi||0)+1),       atual:lj.vi||0,    col:C.jc},
