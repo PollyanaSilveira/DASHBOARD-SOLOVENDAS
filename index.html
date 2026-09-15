@@ -387,6 +387,10 @@ tr:hover td{background:var(--beige-l)}
         <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rTc" height="250"></canvas></div>
         <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mTc" style="padding:8px 0"></div></div>
       </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-title">📅 Métricas do Mês Vigente <span class="sub" id="mesVigLblTc"></span></div>
+        <div id="mCurTc" style="padding:8px 0"></div>
+      </div>
     </div>
     <!-- Samila -->
     <div id="prof-sa" class="profile">
@@ -406,6 +410,10 @@ tr:hover td{background:var(--beige-l)}
         <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rSa" height="250"></canvas></div>
         <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mSa" style="padding:8px 0"></div></div>
       </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-title">📅 Métricas do Mês Vigente <span class="sub" id="mesVigLblSa"></span></div>
+        <div id="mCurSa" style="padding:8px 0"></div>
+      </div>
     </div>
     <!-- João -->
     <div id="prof-jc" class="profile">
@@ -424,6 +432,10 @@ tr:hover td{background:var(--beige-l)}
       <div class="g2">
         <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rJc" height="250"></canvas></div>
         <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mJc" style="padding:8px 0"></div></div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-title">📅 Métricas do Mês Vigente <span class="sub" id="mesVigLblJc"></span></div>
+        <div id="mCurJc" style="padding:8px 0"></div>
       </div>
     </div>
     <!-- Thais -->
@@ -448,6 +460,10 @@ tr:hover td{background:var(--beige-l)}
       <div class="g2">
         <div class="card"><div class="card-title">Radar de Competências</div><canvas id="rTh" height="250"></canvas></div>
         <div class="card"><div class="card-title">Métricas Acumuladas</div><div id="mTh" style="padding:8px 0"></div></div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-title">📅 Métricas do Mês Vigente <span class="sub" id="mesVigLblTh"></span></div>
+        <div id="mCurTh" style="padding:8px 0"></div>
       </div>
     </div>
   </section>
@@ -1144,6 +1160,40 @@ function renderProfile(key){
     {lbl:'Agendamentos',     val:sum(data,'ag'), max:15, col:C.silver},
     {lbl:'Vendas',           val:sum(data,'ve'), max:4,  col:'#D97706'},
     {lbl:'Pit Stop / Ações', val:sum(data,'pit'),max:25, col:'#059669'},
+  ];
+  el.innerHTML=metrics.map(m=>`
+    <div class="mrow">
+      <div class="mrow-lbl">${m.lbl}</div>
+      <div class="mrow-bar"><div class="prog"><div class="prog-fill" style="width:${Math.min(m.val/m.max*100,100)}%;background:${m.col}"></div></div></div>
+      <div class="mrow-val" style="color:${m.col}">${m.val}</div>
+    </div>
+  `).join('');
+
+  renderCurrentMonth(capId,data);
+}
+
+// Mesmas métricas do card "Métricas Acumuladas", mas só do mês vigente (o mês
+// corrente de verdade — muda sozinho todo mês, não é o último mês com dado).
+function renderCurrentMonth(capId,data){
+  const lblEl=document.getElementById('mesVigLbl'+capId);
+  const el=document.getElementById('mCur'+capId);
+  if(!el)return;
+  const curM=currentMonthLabel();
+  if(lblEl)lblEl.textContent=curM;
+  const d=data.find(x=>x.m===curM);
+  if(!d){
+    el.innerHTML=`<div style="font-size:13px;color:var(--muted);padding:8px 0">Ainda sem dado lançado em ${curM}.</div>`;
+    return;
+  }
+  const metrics=[
+    {lbl:'Plantões',        val:d.pl||0,           max:20, col:C.silver},
+    {lbl:'Visitas',         val:d.vi||0,           max:10, col:'#D97706'},
+    {lbl:'Total Leads',     val:(d.ln||0)+(d.ls||0),max:30,col:C.sa},
+    {lbl:'Leads Orgânicos', val:d.ln||0,           max:25, col:'#162255'},
+    {lbl:'Leads SDR',       val:d.ls||0,           max:15, col:'#2563EB'},
+    {lbl:'Agendamentos',    val:d.ag||0,           max:10, col:C.silver},
+    {lbl:'Vendas',          val:d.ve||0,           max:3,  col:'#D97706'},
+    {lbl:'Pit Stop / Ações',val:d.pit||0,          max:10, col:'#059669'},
   ];
   el.innerHTML=metrics.map(m=>`
     <div class="mrow">
