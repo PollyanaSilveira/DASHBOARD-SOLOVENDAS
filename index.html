@@ -2230,14 +2230,29 @@ async function syncCvcrmLive(){
   }catch(e){console.warn('CVCRM sync failed:',e);setCvcrmSyncStatus('error');return false;}
 }
 
+// Remove sempre (não só uma vez) qualquer registro manual de Plantões de Set/26
+// pra Tarcyla/Samila/João: BASE já é a fonte oficial desse dado, e a nuvem que
+// sincroniza edições manuais (jsonbin.io) ficou com um valor antigo preso lá
+// depois de esgotar a cota gratuita — sem isso, ela reintroduz o valor errado
+// assim que a cota for renovada e a sincronização voltar a funcionar.
+function fixStaleExtraSet26(){
+  try{
+    const ex=JSON.parse(localStorage.getItem('soloExtra')||'[]');
+    const cleaned=ex.filter(e=>!(['Tarcyla','Samila','João'].includes(e.c)&&normMonth(e.m)==='Set/26'));
+    if(cleaned.length!==ex.length)localStorage.setItem('soloExtra',JSON.stringify(cleaned));
+  }catch(e){}
+}
+
 document.addEventListener('DOMContentLoaded',async()=>{
   await Promise.all([syncFromCloud(),syncCvcrmLive()]);
+  fixStaleExtraSet26();
   renderGeral();
   const mos=getMonths();
   if(mos.length)document.getElementById('hdrDate').textContent='Atualizado: '+mos[mos.length-1];
   setInterval(async()=>{
     const prev=localStorage.getItem('soloExtra')+'|'+localStorage.getItem('cvcrmLive');
     await Promise.all([syncFromCloud(),syncCvcrmLive()]);
+    fixStaleExtraSet26();
     const next=localStorage.getItem('soloExtra')+'|'+localStorage.getItem('cvcrmLive');
     if(prev!==next){
       renderGeral();
