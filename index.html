@@ -802,7 +802,7 @@ tr:hover td{background:var(--beige-l)}
       <div class="fgrp"><label class="flbl">Realizadas</label><input class="finp" id="fRe" type="number" min="0" placeholder="0"></div>
       <div class="fgrp"><label class="flbl">Reservas</label><input class="finp" id="fRV" type="number" min="0" placeholder="0"></div>
     </div>
-    <div style="font-size:11px;color:var(--muted);margin:-10px 0 14px 2px">🔗 Leads, Visitas e Vendas são preenchidos automaticamente pelo CV CRM a cada 15 min — a edição manual aqui vale só até a próxima sincronização. Pré-cadastro e Reservas ficam manuais (a API não libera isso sem senha). Plantões, Pit Stop e Agendamentos são sempre manuais (não existem no CV CRM).</div>
+    <div style="font-size:11px;color:var(--muted);margin:-10px 0 14px 2px">🔗 Leads e Vendas são preenchidos automaticamente pelo CV CRM a cada 15 min — a edição manual aqui vale só até a próxima sincronização. Pré-cadastro e Reservas ficam manuais (a API não libera isso sem senha). Plantões, Pit Stop, Agendamentos e Visitas são sempre manuais (Visitas não existem mais como automático porque a API do CV CRM só mostra o status atual do lead, perdendo quem visitou e depois voltou pra "Em Atendimento" — use o relatório "Desempenho por Corretores" do CV CRM como fonte oficial).</div>
     <div class="f-actions">
       <button class="btn btn-sec" onclick="closeModal()">Cancelar</button>
       <button class="btn btn-prim" onclick="saveEntry()">Salvar Dados</button>
@@ -877,9 +877,13 @@ const BASE=[
   // Plantões de Set/26: soma Shopping Jequitibá + Sette, contados até o dia de
   // hoje (a escala do mês pode mudar nos próximos dias — nunca conta plantão
   // futuro, só o que já aconteceu). Atualizado manualmente sob demanda.
-  {c:'Tarcyla',m:'Set/26',pl:20,pit:0, vi:0, ln:0, ls:0, ag:0,re:0,ve:0},
-  {c:'Samila', m:'Set/26',pl:11,pit:0, vi:0, ln:0, ls:0, ag:0,re:0,ve:0},
-  {c:'João',   m:'Set/26',pl:11,pit:0, vi:0, ln:0, ls:0, ag:0,re:0,ve:0},
+  // Visitas de Set/26: valor oficial do relatório "Desempenho por Corretores"
+  // do CV CRM (a API não expõe histórico de status, então visitas de leads que
+  // depois voltaram pra "Em Atendimento" ficam de fora do cálculo automático —
+  // por isso Visitas também passou a ser manual, atualizado sob demanda).
+  {c:'Tarcyla',m:'Set/26',pl:20,pit:0, vi:11,ln:0, ls:0, ag:0,re:0,ve:0},
+  {c:'Samila', m:'Set/26',pl:11,pit:0, vi:3, ln:0, ls:0, ag:0,re:0,ve:0},
+  {c:'João',   m:'Set/26',pl:11,pit:0, vi:4, ln:0, ls:0, ag:0,re:0,ve:0},
 ];
 
 const MONTH_NORM={'OUTUBRO':'Out/25','NOVEMBRO':'Nov/25','DEZEMBRO':'Dez/25','JANEIRO':'Jan/26','FEVEREIRO':'Fev/26','MARCO':'Mar/26','MARÇO':'Mar/26','ABRIL':'Abr/26','MAIO':'Mai/26','JUNHO':'Jun/26','JULHO':'Jul/26','AGOSTO':'Ago/26','SETEMBRO':'Set/26','OUTUBRO/2026':'Out/26','NOVEMBRO/2026':'Nov/26','DEZEMBRO/2026':'Dez/26','JANEIRO/2026':'Jan/26','FEVEREIRO/2026':'Fev/26','MARÇO/2026':'Mar/26','MARCO/2026':'Mar/26','ABRIL/2026':'Abr/26','MAIO/2026':'Mai/26','JUNHO/2026':'Jun/26','JULHO/2026':'Jul/26','AGOSTO/2026':'Ago/26','SETEMBRO/2026':'Set/26'};
@@ -913,9 +917,12 @@ function allData(){
   const newEntries=extra.filter(e=>!BASE.find(b=>b.c===e.c&&b.m===e.m));
   const combined=[...merged,...newEntries].map(d=>{
     const live=cvcrm.find(e=>e.c===d.c&&e.m===d.m);
-    // Camada CVCRM: sobrescreve ln/ls/vi/ve e preenche pc/rv, sem tocar em pl/pit/ag
+    // Camada CVCRM: sobrescreve ln/ls/ve e preenche pc/rv, sem tocar em pl/pit/ag/vi.
+    // Visitas (vi) é manual (BASE/extra): a API do CV CRM só guarda o status ATUAL
+    // do lead, então visitas de quem depois voltou pra "Em Atendimento" ficam de
+    // fora do cálculo automático — confirmado contra o relatório oficial do CV CRM.
     if(!live)return{...d,pc:d.pc||0,rv:d.rv||0};
-    return{...d,ln:live.ln||0,ls:live.ls||0,vi:live.vi??d.vi??0,ve:live.ve??d.ve??0,pc:live.pc||0,rv:live.rv||0};
+    return{...d,ln:live.ln||0,ls:live.ls||0,ve:live.ve??d.ve??0,pc:live.pc||0,rv:live.rv||0};
   });
   // Corretor/mês que só existem no CVCRM (mês novo, ninguém lançou dados manuais ainda)
   const cvcrmOnly=cvcrm.filter(e=>!combined.find(d=>d.c===e.c&&d.m===e.m))
