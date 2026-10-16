@@ -304,13 +304,13 @@ tr:hover td{background:var(--beige-l)}
   <div style="font-size:42px">🔒</div>
   <div style="font-size:20px;font-weight:700">SOLO Hub de Vendas</div>
   <div style="font-size:14px;opacity:.8;max-width:320px">Acesso restrito. Digite a senha para continuar.</div>
-  <input id="lockPw" type="password" autocomplete="off" placeholder="Senha" style="padding:12px 14px;border-radius:10px;border:0;font-size:16px;width:240px;max-width:100%;text-align:center">
+  <input id="lockPw" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Senha" style="padding:12px 14px;border-radius:10px;border:0;font-size:16px;width:240px;max-width:100%;text-align:center">
   <button id="lockBtn" style="padding:12px 28px;border-radius:10px;border:0;background:#C9A227;color:#0D2545;font-weight:700;font-size:15px;cursor:pointer">Entrar</button>
   <div id="lockErr" style="font-size:13px;color:#fca5a5;min-height:18px"></div>
 </div>
 <script>
 (function(){
-  const HASH='3063f62000d1bb8f4cce3bf5c95924715ec45e38169268c6e126e2df52937981';
+  const HASH='d4652d88ef38902e16cfb4187c54858a98f992ce7b781e3f587c495570fae9c1';
   const KEY='soloUnlock';
   const lock=document.getElementById('lockScreen');
   document.documentElement.style.overflow='hidden';
@@ -318,7 +318,7 @@ tr:hover td{background:var(--beige-l)}
   function open(){lock.remove();document.documentElement.style.overflow='';}
   try{if(localStorage.getItem(KEY)===HASH){open();return;}}catch(e){}
   async function tentar(){
-    const h=await sha(document.getElementById('lockPw').value);
+    const h=await sha(document.getElementById('lockPw').value.trim());
     if(h===HASH){try{localStorage.setItem(KEY,HASH);}catch(e){}open();}
     else{document.getElementById('lockErr').textContent='Senha incorreta.';}
   }
