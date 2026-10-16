@@ -299,6 +299,34 @@ tr:hover td{background:var(--beige-l)}
 </head>
 <body>
 
+<!-- ── TELA DE BLOQUEIO (remover este bloco inteiro pra liberar o acesso de novo) ── -->
+<div id="lockScreen" style="position:fixed;inset:0;z-index:2147483647;background:#0D2545;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;text-align:center;font-family:system-ui,sans-serif">
+  <div style="font-size:42px">🔒</div>
+  <div style="font-size:20px;font-weight:700">SOLO Hub de Vendas</div>
+  <div style="font-size:14px;opacity:.8;max-width:320px">Acesso restrito. Digite a senha para continuar.</div>
+  <input id="lockPw" type="password" autocomplete="off" placeholder="Senha" style="padding:12px 14px;border-radius:10px;border:0;font-size:16px;width:240px;max-width:100%;text-align:center">
+  <button id="lockBtn" style="padding:12px 28px;border-radius:10px;border:0;background:#C9A227;color:#0D2545;font-weight:700;font-size:15px;cursor:pointer">Entrar</button>
+  <div id="lockErr" style="font-size:13px;color:#fca5a5;min-height:18px"></div>
+</div>
+<script>
+(function(){
+  const HASH='3063f62000d1bb8f4cce3bf5c95924715ec45e38169268c6e126e2df52937981';
+  const KEY='soloUnlock';
+  const lock=document.getElementById('lockScreen');
+  document.documentElement.style.overflow='hidden';
+  async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+  function open(){lock.remove();document.documentElement.style.overflow='';}
+  try{if(localStorage.getItem(KEY)===HASH){open();return;}}catch(e){}
+  async function tentar(){
+    const h=await sha(document.getElementById('lockPw').value);
+    if(h===HASH){try{localStorage.setItem(KEY,HASH);}catch(e){}open();}
+    else{document.getElementById('lockErr').textContent='Senha incorreta.';}
+  }
+  document.getElementById('lockBtn').onclick=tentar;
+  document.getElementById('lockPw').addEventListener('keydown',e=>{if(e.key==='Enter')tentar();});
+})();
+</script>
+
 <!-- ── HEADER ── -->
 <header class="hdr">
   <div class="logo-wrap" id="logoWrap">
