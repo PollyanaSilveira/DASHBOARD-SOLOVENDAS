@@ -303,7 +303,11 @@ tr:hover td{background:var(--beige-l)}
 <div id="lockScreen" style="position:fixed;inset:0;z-index:2147483647;background:#0D2545;color:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;text-align:center;font-family:system-ui,sans-serif">
   <div style="font-size:42px">🔒</div>
   <div style="font-size:20px;font-weight:700">SOLO Hub de Vendas</div>
-  <div style="font-size:14px;opacity:.8;max-width:320px">Acesso restrito. Digite a senha para continuar.</div>
+  <div style="background:rgba(201,162,39,.15);border:1px solid #C9A227;border-radius:12px;padding:14px 16px;max-width:340px;font-size:14px;line-height:1.5">
+    <strong style="color:#F5D061">⚠️ Acesso bloqueado</strong><br>
+    O acesso a este painel foi bloqueado pela coordenação por período indeterminado.
+  </div>
+  <div style="font-size:13px;opacity:.7;max-width:320px">Acesso restrito. Digite a senha para continuar.</div>
   <input id="lockPw" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Senha" style="padding:12px 14px;border-radius:10px;border:0;font-size:16px;width:240px;max-width:100%;text-align:center">
   <button id="lockBtn" style="padding:12px 28px;border-radius:10px;border:0;background:#C9A227;color:#0D2545;font-weight:700;font-size:15px;cursor:pointer">Entrar</button>
   <div id="lockErr" style="font-size:13px;color:#fca5a5;min-height:18px"></div>
