@@ -1,18 +1,18 @@
 {
   "counters": [
     {
-      "c": "João",
+      "c": "Tarcyla",
       "m": "Out/26",
-      "ln": 13,
-      "ls": 4,
+      "ln": 17,
+      "ls": 3,
       "vi": 3,
       "ve": 0
     },
     {
-      "c": "Tarcyla",
+      "c": "João",
       "m": "Out/26",
-      "ln": 16,
-      "ls": 3,
+      "ln": 13,
+      "ls": 4,
       "vi": 3,
       "ve": 0
     },
@@ -250,7 +250,7 @@
     }
   ],
   "lastEvent": {
-    "ts": "2026-10-20T19:29:14.207Z",
+    "ts": "2026-10-20T22:33:43.859Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
