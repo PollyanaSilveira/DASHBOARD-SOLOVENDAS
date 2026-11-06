@@ -84,7 +84,7 @@
       "c": "Samila",
       "m": "Ago/26",
       "ln": 4,
-      "ls": 14,
+      "ls": 13,
       "vi": 1,
       "ve": 1
     },
@@ -274,7 +274,7 @@
     }
   ],
   "lastEvent": {
-    "ts": "2026-11-06T04:59:35.512Z",
+    "ts": "2026-11-06T12:49:53.504Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
