@@ -1,17 +1,9 @@
 {
   "counters": [
     {
-      "c": "Tarcyla",
-      "m": "Nov/26",
-      "ln": 12,
-      "ls": 15,
-      "vi": 2,
-      "ve": 1
-    },
-    {
       "c": "João",
       "m": "Nov/26",
-      "ln": 21,
+      "ln": 25,
       "ls": 18,
       "vi": 3,
       "ve": 0
@@ -19,10 +11,18 @@
     {
       "c": "Samila",
       "m": "Nov/26",
-      "ln": 8,
-      "ls": 21,
+      "ln": 9,
+      "ls": 22,
       "vi": 2,
       "ve": 0
+    },
+    {
+      "c": "Tarcyla",
+      "m": "Nov/26",
+      "ln": 12,
+      "ls": 15,
+      "vi": 2,
+      "ve": 1
     },
     {
       "c": "Tarcyla",
@@ -274,7 +274,7 @@
     }
   ],
   "lastEvent": {
-    "ts": "2026-11-22T13:08:47.019Z",
+    "ts": "2026-11-22T20:21:07.797Z",
     "source": "github-actions:sync-cvcrm"
   }
 }
